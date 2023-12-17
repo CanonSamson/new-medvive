@@ -4,7 +4,7 @@ import { useUserAuth } from "@/Context";
 import InputField from "@/components/InputField";
 
 const DateOfBirthPopUp = ({ settingsPup, setSettingsPup }) => {
-  const { patientDetail, getPatientData } = useUserAuth();
+  const { patientDetail, getPatientData , auth} = useUserAuth();
   const [submit, setSubmit] = useState(false);
   const [dateOfBirth, setDateOfBirth] = useState(patientDetail.dateOfBirth);
 
@@ -12,7 +12,7 @@ const DateOfBirthPopUp = ({ settingsPup, setSettingsPup }) => {
     setSubmit(true);
     if (patientDetail.dateOfBirth === dateOfBirth) return;
     try {
-      updateDB("patients", patientDetail.id, { dateOfBirth: dateOfBirth });
+      updateDB("patients", auth.currentUser.uid, { dateOfBirth: dateOfBirth });
       setSubmit(false);
       getPatientData();
       setSettingsPup("");

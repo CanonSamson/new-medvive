@@ -7,7 +7,7 @@ import { useUserAuth } from "@/Context";
 import { updateDB } from "@/functions/firebase";
 
 const BloodGroupPopUp = ({ settingsPup, setSettingsPup }) => {
-  const { patientDetail, getPatientData } = useUserAuth();
+  const { patientDetail, getPatientData, auth } = useUserAuth();
   const [submit, setSubmit] = useState(false);
   const [bloodGroup, setBloodGroup] = useState(patientDetail.bloodGroup);
 
@@ -15,7 +15,7 @@ const BloodGroupPopUp = ({ settingsPup, setSettingsPup }) => {
     setSubmit(true);
     if (patientDetail.bloodGroup === bloodGroup) return;
     try {
-      updateDB("patients", patientDetail.id, { bloodGroup: bloodGroup });
+      updateDB("patients", auth.currentUser.uid, { bloodGroup: bloodGroup });
       setSubmit(false);
       getPatientData();
       setSettingsPup("");

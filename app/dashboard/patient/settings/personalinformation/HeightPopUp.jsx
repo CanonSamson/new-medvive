@@ -5,7 +5,7 @@ import { updateDB } from "@/functions/firebase";
 import InputField from "@/components/InputField";
 
 const HeightPopUp = ({ settingsPup, setSettingsPup }) => {
-  const { patientDetail, getPatientData } = useUserAuth();
+  const { patientDetail, getPatientData, auth } = useUserAuth();
   const [submit, setSubmit] = useState(false);
   const [height, setHeight] = useState("");
 
@@ -13,7 +13,7 @@ const HeightPopUp = ({ settingsPup, setSettingsPup }) => {
     setSubmit(true);
     if (patientDetail.height === height) return;
     try {
-      updateDB("patients", patientDetail.id, { height: height });
+      updateDB("patients", auth.currentUser.uid, { height: height });
       setSubmit(false);
       getPatientData();
       setSettingsPup("");

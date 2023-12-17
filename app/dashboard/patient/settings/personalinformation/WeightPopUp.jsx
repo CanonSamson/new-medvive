@@ -5,7 +5,7 @@ import { updateDB } from "@/functions/firebase";
 import InputField from "@/components/InputField";
 
 const WeightPopUp = ({ settingsPup, setSettingsPup }) => {
-  const { patientDetail, getPatientData } = useUserAuth();
+  const { patientDetail, getPatientData, auth } = useUserAuth();
   const [submit, setSubmit] = useState(false);
   const [weight, setWeight] = useState(patientDetail.weight);
 
@@ -13,7 +13,7 @@ const WeightPopUp = ({ settingsPup, setSettingsPup }) => {
     setSubmit(true);
     if (patientDetail.weight === weight) return;
     try {
-      updateDB("patients", patientDetail.id, { weight: weight });
+      updateDB("patients", auth.currentUser.uid, { weight: weight });
       setSubmit(false);
       getPatientData();
       setSettingsPup("");

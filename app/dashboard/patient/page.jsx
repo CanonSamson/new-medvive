@@ -120,7 +120,7 @@ const Dashoard = () => {
             >
               <Icon name="consult" size={40} className="text-[#929CAD]" />
               <p className="text-base text-[#7B8D9E]">
-                You haven`&apos;`t scheduled a consultation yet. Please schedule
+                You haven&apos;t scheduled a consultation yet. Please schedule
                 one.
               </p>
               <Link href="" className=" text-primary font-medium">
@@ -138,8 +138,8 @@ const Dashoard = () => {
               >
                 <Icon name="doctor" size={40} className="text-[#929CAD]" />
                 <p className="text-base text-[#7B8D9E]">
-                  You haven`&apos;`t scheduled a consultation yet. Please
-                  schedule one.
+                  You haven&apos;t scheduled a consultation yet. Please schedule
+                  one.
                 </p>
                 <Link href="" className=" text-primary font-medium">
                   Start a consult now

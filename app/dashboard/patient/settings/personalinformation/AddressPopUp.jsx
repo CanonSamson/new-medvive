@@ -5,7 +5,7 @@ import InputField from "@/components/InputField";
 import Header from "@/components/Header";
 
 const AddressPopUp = ({ settingsPup, setSettingsPup }) => {
-  const { patientDetail, getPatientData } = useUserAuth();
+  const { patientDetail, getPatientData ,auth} = useUserAuth();
   const [submit, setSubmit] = useState(false);
   const [address, setAddress] = useState(patientDetail.address);
 
@@ -13,7 +13,7 @@ const AddressPopUp = ({ settingsPup, setSettingsPup }) => {
     setSubmit(true);
     if (patientDetail.address === address) return;
     try {
-      updateDB("patients", patientDetail.id, { address: address });
+      updateDB("patients", auth.currentUser.uid, { address: address });
       setSubmit(false);
       getPatientData();
       setSettingsPup("");

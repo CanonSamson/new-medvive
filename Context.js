@@ -30,7 +30,7 @@ export function AuthProvider({ children }) {
   }
 
   async function getPatientData() {
-    if (auth.currentUser && !isSigning) return null;
+    if (!auth.currentUser && isSigning) return null;
     try {
       const { patient } = await getPatient();
       setPatientDetail(patient);
