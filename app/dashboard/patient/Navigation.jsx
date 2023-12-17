@@ -9,7 +9,7 @@ const Navigation = () => {
       className={`  grid-cols-5  z-[40] bg-white shadow-gray-400 border-t md:max-w-[400px]
       text-[#929CAD] fixed h-[60px] bottom-0  left-0 w-full grid justify-center items-center`}
     >
-      <CustomNavLink href="/patient">
+      <CustomNavLink href="/dashboard/patient">
         <Icon name="home" size={20} />
         <span className="text-[8px] opacity-80">Patient</span>
       </CustomNavLink>

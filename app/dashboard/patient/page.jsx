@@ -15,6 +15,12 @@ const Dashoard = () => {
   const { greeting, patientDetail, pending, auth } = useUserAuth();
   const router = useRouter();
 
+  useEffect(() => {
+    if (!auth.currentUser || !patientDetail) {
+      router.push("/");
+    }
+  }, [pending]);
+
   if (pending) {
     return (
       <div className=" w-full bg-white h-screen relative flex justify-center items-center">
@@ -28,15 +34,6 @@ const Dashoard = () => {
       </div>
     );
   }
-
-  useEffect(() => {
-    if (!pending) {
-      if (!auth.currentUser || !patientDetail) {
-        // Redirect to the login page if the user is not authenticated
-        router.push("/");
-      }
-    }
-  }, [pending]);
 
   return (
     auth.currentUser && (
