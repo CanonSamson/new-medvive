@@ -16,6 +16,7 @@ const Dashoard = () => {
   const router = useRouter();
 
   useEffect(() => {
+    if (pending) return;
     if (!auth.currentUser || !patientDetail) {
       router.push("/");
     }
