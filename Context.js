@@ -45,7 +45,7 @@ export function AuthProvider({ children }) {
       const { patient } = await getPatient();
       setPatientDetail(patient);
       setPending(false);
-      console.log()
+      console.log(patient);
     } catch (error) {
       // Handle error if necessary
       console.error("Error fetching user user:", error);
@@ -54,7 +54,7 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      getPatientData();
+      getPatientDetail();
     });
 
     // Clean up the subscription on component unmount
