@@ -73,7 +73,7 @@ export function PatientProvider({ children }) {
 
     // Clean up the subscription on component unmount
     return () => unsubscribe();
-  }, []);
+  }, [auth]);
 
   useEffect(() => {
     getPatientDetail();

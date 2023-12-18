@@ -21,7 +21,7 @@ const Home = () => {
     if (!auth.currentUser || !doctorDetail) {
       router.push("/");
     }
-  }, [pending]);
+  }, [pending, auth.currentUser, doctorDetail, router]);
 
   if (pending) {
     return (

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { usePatient } from "./Context";
+import Image from "next/image";
 
 const IsLoggedInPopUp = () => {
   const { patientDetail, logout } = usePatient();
@@ -13,7 +14,7 @@ const IsLoggedInPopUp = () => {
         <div className=" bg-white max-w-[400px] text-base w-full p-4 mt-[80px]  rounded-lg">
           <div className=" gap-2  flex items-center  text-dark relative z-[20]">
             <div className=" w-[80px] h-[80px] relative">
-              <img
+              <Image
                 className=" w-[80px] h-[80px]  rounded-full  object-cover "
                 src={
                   patientDetail.profilePicture
@@ -23,6 +24,8 @@ const IsLoggedInPopUp = () => {
                     : "/images/AvatarG.png"
                 }
                 alt=""
+                width={80}
+                height={80}
               />
             </div>
             <div className="flex flex-col items-start ">

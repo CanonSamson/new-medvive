@@ -28,7 +28,7 @@ const Settings = () => {
     if (!auth.currentUser || !doctorDetail) {
       router.push("/doctor/login");
     }
-  }, [pending]);
+  },  [pending, auth.currentUser, doctorDetail, router]);
 
   if (pending) {
     return (
