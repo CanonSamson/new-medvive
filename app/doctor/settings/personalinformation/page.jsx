@@ -6,12 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { IoIosArrowBack } from "react-icons/io";
-import BloodGroupPopUp from "./BloodGroupPopUp";
-import DateOfBirthPopUp from "./DateOfBirthPopUp";
 import AddressPopUp from "./AddressPopUp";
-import HeightPopUp from "./HeightPopUp";
-import WeightPopUp from "./WeightPopUp";
-import GenderPopUp from "./GenderPopUp";
 import { useRouter } from "next/navigation";
 import { usePatient } from "../../Context";
 

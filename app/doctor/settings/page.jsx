@@ -131,44 +131,6 @@ const Settings = () => {
                 </div>
                 <MdOutlineArrowForwardIos size={16} />
               </Link>
-              <Link
-                href="/faq"
-                className="flex items-center bg-white rounded-xl p-3  w-full  justify-between"
-              >
-                <div className=" flex items-center  justify-between gap-2">
-                  <div className=" p-2    w-[40px] h-[40px] rounded-lg flex items-center justify-center">
-                    <BsFillQuestionCircleFill size={20} />
-                  </div>
-                  <div>
-                    <h4 className="text-[#091F44] text-[13px] font-medium">
-                      FAQS
-                    </h4>
-                    <span className="text-base text-[#7B8D9E]">
-                      Can i talk to doctors?
-                    </span>
-                  </div>
-                </div>
-                <MdOutlineArrowForwardIos size={16} />
-              </Link>
-              <Link
-                href=""
-                className="flex items-center bg-white rounded-xl p-3  w-full  justify-between"
-              >
-                <div className=" flex items-center  justify-between gap-2">
-                  <div className=" p-2    w-[40px] h-[40px] rounded-lg flex items-center justify-center">
-                    <MdFeedback size={20} />
-                  </div>
-                  <div>
-                    <h4 className="text-[#091F44] text-[13px] font-medium">
-                      Feed back
-                    </h4>
-                    <span className="text-base text-[#7B8D9E]">
-                      What do you think about Medvive?
-                    </span>
-                  </div>
-                </div>
-                <MdOutlineArrowForwardIos size={16} />
-              </Link>
 
               <button
                 className=" mt-5"
