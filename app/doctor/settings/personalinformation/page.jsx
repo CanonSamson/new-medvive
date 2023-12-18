@@ -8,10 +8,11 @@ import Link from "next/link";
 import { IoIosArrowBack } from "react-icons/io";
 import AddressPopUp from "./AddressPopUp";
 import { useRouter } from "next/navigation";
-import { usePatient } from "../../Context";
+import { useDoctor } from "../../Context";
+import GenderPopUp from "./GenderPopUp";
 
 const PersonalInformation = () => {
-  const { patientDetail, pending, auth } = usePatient();
+  const { patientDetail, pending, auth } = useDoctor();
   const [settingsPup, setSettingsPup] = useState("");
   const router = useRouter();
 

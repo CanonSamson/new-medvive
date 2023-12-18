@@ -13,7 +13,7 @@ const AddressPopUp = ({ settingsPup, setSettingsPup }) => {
     setSubmit(true);
     if (doctorDetail.address === address) return;
     try {
-      updateDB("patients", auth.currentUser.uid, { address: address });
+      updateDB("doctors", auth.currentUser.uid, { address: address });
       setSubmit(false);
       getDoctorData();
       setSettingsPup("");

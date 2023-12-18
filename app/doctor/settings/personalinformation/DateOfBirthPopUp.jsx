@@ -12,7 +12,7 @@ const DateOfBirthPopUp = ({ settingsPup, setSettingsPup }) => {
     setSubmit(true);
     if (doctorDetail.dateOfBirth === dateOfBirth) return;
     try {
-      updateDB("patients", auth.currentUser.uid, { dateOfBirth: dateOfBirth });
+      updateDB("doctors", auth.currentUser.uid, { dateOfBirth: dateOfBirth });
       setSubmit(false);
       getPatientData();
       setSettingsPup("");
