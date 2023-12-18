@@ -11,7 +11,7 @@ const Footer = () => {
           </h6>
           <p>register and tell us about your medical issue to get started.</p>
         </div>
-        <Link href="/signup">
+        <Link href="/patient/signup">
           <button className=" items-center gap-1 bg-primary flex text-white   px-5 text-base py-3 rounded-full">
             Talk to a doctor <Icon name="arrowright" size={24} />
           </button>{" "}
@@ -23,8 +23,8 @@ const Footer = () => {
             <h5 className=" mb-5 tablet:mb-10">Subscribe To Newsletter</h5>
             <p className=" text-base">
               Stay informed about our latest features and updates by subscribing
-              to our newsletter. When you subscribe, you`&apos;`ll receive emails from
-              us with all the latest information.
+              to our newsletter. When you subscribe, you`&apos;`ll receive
+              emails from us with all the latest information.
             </p>
             <form className=" border-b flex justify-between mt-5">
               <input

@@ -92,13 +92,13 @@ const Navbar = () => {
             }   duration-200 grid tablet:flex px-4 tablet:px-0 items-center grid-cols-2 font-medium gap-[10px]  fixed right-0 w-full tablet:w-auto  justify-center tablet:static `}
           >
             <Link
-              href="/signup"
+              href="/patient/signup"
               className="w-full tablet:auto flex tablet:min-w-[100px] justify-center bg-primary text-white px-4 py-2 rounded-full"
             >
               <button>Sign up </button>
             </Link>
             <Link
-              href="/login"
+              href="/patient/login"
               className="w-full  tablet:auto flex tablet:min-w-[100px] justify-center border border-primary  px-4 py-2 rounded-full"
             >
               <button>Log In</button>

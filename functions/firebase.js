@@ -93,7 +93,7 @@ export const createOrUpdateDB = async (
 
 export const UpdateFunction = async (
   collectionName,
-  user,
+  uid,
   newData,
   data,
   dataPropertyName
@@ -105,7 +105,7 @@ export const UpdateFunction = async (
     Data = [newData];
   }
 
-  await updateDB(collectionName, user.id, {
+  await updateDB(collectionName, uid, {
     [dataPropertyName]: Data,
   });
 };

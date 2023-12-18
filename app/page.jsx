@@ -14,7 +14,7 @@ export default function Home() {
             Get 24/7 online consultations with the best doctorswithout breaking
             a sweat and your bank.
           </p>
-          <Link href="/signup">
+          <Link href="/patient/signup">
             <button className=" leading-none items-center gap-1 bg-primary flex text-white mt-10  px-5 text-base py-3 rounded-full">
               Start a consult now <Icon name="arrowright" size={24} />
             </button>
@@ -161,7 +161,7 @@ export default function Home() {
           </div>
         </div>
         <div className="flex items-center justify-center">
-          <Link href="/signup">
+          <Link href="/patient/signup">
             <button className="flx items-center gap-1 bg-primary flex text-white mt-10  px-5 text-base py-3 rounded-full">
               Talk to a doctor <Icon name="arrowright" size={24} />
             </button>
@@ -193,7 +193,7 @@ export default function Home() {
               Experience on-demand healthcare services at your fingertips,
               ensuring convenience and prompt care whenever you need it.
             </p>
-            <Link href="/signup">
+            <Link href="/patient/signup">
               <button className="flx items-center gap-1 bg-primary flex text-white mt-10  px-5 text-base py-3 rounded-full">
                 Talk to a doctor <Icon name="arrowright" size={24} />
               </button>

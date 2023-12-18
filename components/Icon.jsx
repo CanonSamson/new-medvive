@@ -85,6 +85,7 @@ const iconComponents = {
   notification: GrNotification,
   search: BiSearch,
   filter: BiFilter,
+  backarrow: IoIosArrowBack,
 };
 
 const Icon = ({ name, ...props }) => {
