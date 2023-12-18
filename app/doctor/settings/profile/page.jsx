@@ -27,7 +27,7 @@ const Profile = () => {
     if (!auth.currentUser || !doctorDetail) {
       router.push("/doctor/login");
     }
-  },  [pending, auth.currentUser, doctorDetail, router]);
+  }, [pending, auth.currentUser, doctorDetail, router]);
 
   if (pending) {
     return (
@@ -71,7 +71,7 @@ const Profile = () => {
         <div className=" px-4 pb-[200px]">
           <DoctorsCard
             Name={"Dr." + " " + doctorDetail.name}
-            Image={doctorDetail?.profilePicture}
+            Img={doctorDetail?.profilePicture}
             specialty={doctorDetail?.specialty}
             languages={doctorDetail?.languages}
             stars={doctorDetail.stars ? doctorDetail.stars : "0.0"}

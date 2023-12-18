@@ -8,35 +8,13 @@ import Image from "next/image";
 import SubHeader from "../../components/SubHeader";
 import { usePatient } from "@/app/patient/Context";
 import { getUserFirstName } from "@/functions/functions";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { updateGreeting } from "@/functions/greeting";
+import { patientPrivateRoute } from "@/functions/auth";
 
 const Dashoard = () => {
-  const { patientDetail, pending, auth } = usePatient();
-  const router = useRouter();
+  const { patientDetail,  auth } = usePatient();
 
-  useEffect(() => {
-    if (pending) return;
-    if (!auth.currentUser || !patientDetail) {
-      router.push("/");
-    }
-  }, [pending]);
-
-  if (pending) {
-    return (
-      <div className=" w-full bg-white h-screen relative flex justify-center items-center">
-        <Image
-          className="w-[120px] animate-bounce"
-          src="/logo.svg"
-          width={120}
-          height={100}
-          alt=""
-        />
-      </div>
-    );
-  }
-
+  patientPrivateRoute();
   return (
     auth.currentUser && (
       <LayoutPage>

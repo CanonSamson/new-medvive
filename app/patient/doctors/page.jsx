@@ -74,7 +74,7 @@ const ConsultationsPage = () => {
                   stars={doctor.stars ? doctor.stars : "0.0"}
                   languages={doctor?.languages}
                   onClick={() => {
-                    router.push(`/patient/doctor/${doctor.uid}`);
+                    router.push(`/patient/doctors/${doctor.uid}`);
                   }}
                 />
               ))}

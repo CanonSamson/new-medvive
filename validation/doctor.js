@@ -64,10 +64,6 @@ export const LanguagesSettingSchema = yup.object().shape({
   proficiencyLevel: yup.string().required(),
 });
 
-export const BookAppointmentSchema = yup.object().shape({
-  date: yup.string().required(),
-  time: yup.string().required(),
-});
 
 export const CancelBookingSchema = yup.object().shape({
   bookingcancelmassage: yup.string().required(),

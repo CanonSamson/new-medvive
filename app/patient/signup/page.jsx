@@ -38,6 +38,7 @@ const Signup = () => {
         // Create a user document in Firestore
         await createDB("patients", auth.currentUser.uid, {
           ...values,
+          uid: auth.currentUser.uid,
         });
 
         await getPatientData();

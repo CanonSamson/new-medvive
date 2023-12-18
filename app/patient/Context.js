@@ -6,7 +6,9 @@ import { getAuth } from "firebase/auth";
 import { signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { getPatient } from "@/functions/patient";
-import { getCollectionDB } from "@/functions/firebase";
+import { getCollectionDB, getDB } from "@/functions/firebase";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "@/firebase-config";
 
 const PatientContext = createContext();
 
@@ -20,6 +22,7 @@ export function PatientProvider({ children }) {
   const [pending, setPending] = useState(true);
   const [patientDetail, setPatientDetail] = useState(null);
   const [doctors, setDoctors] = useState(null);
+  const [consultations, setConsultations] = useState(null);
   const [isSigning, setIsSigning] = useState(false);
 
   const auth = getAuth();
@@ -33,7 +36,7 @@ export function PatientProvider({ children }) {
   async function getPatientData() {
     if (!auth.currentUser && isSigning) return null;
     try {
-      const { patient } = await getPatient();
+      const {data: patient } = await getDB("patients", auth.currentUser.uid);
       setPatientDetail(patient);
       return { patient };
     } catch (error) {
@@ -79,6 +82,23 @@ export function PatientProvider({ children }) {
     getPatientDetail();
   }, []);
 
+  useEffect(() => {
+    if (patientDetail) {
+      const unsub = onSnapshot(
+        doc(db, "consultations", auth.currentUser.uid),
+        (doc) => {
+          const source = doc.metadata.hasPendingWrites ? "Local" : "Server";
+          console.log(source, " setconsultations: ", doc.data());
+          if (doc.data()) {
+            setConsultations(doc.data());
+          }
+        }
+      );
+
+      return () => unsub();
+    }
+  }, [patientDetail]);
+
   const value = {
     auth,
     patientDetail,
@@ -88,6 +108,7 @@ export function PatientProvider({ children }) {
     getPatientData,
     getDoctors,
     doctors,
+    consultations,
   };
   return (
     <PatientContext.Provider value={value}>{children}</PatientContext.Provider>

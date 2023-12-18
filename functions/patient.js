@@ -16,3 +16,16 @@ export async function getPatient() {
     throw error; // Re-throw the error to handle it elsewhere if needed
   }
 }
+
+export async function getDoctorById(uid) {
+  try {
+    const docRef = doc(db, "doctors", uid);
+    const data = await getDoc(docRef);
+    const doctor = data.data(); // Use data() to get the document data
+    return { doctor }; // Return the patient data
+  } catch (error) {
+    console.error("Error occurred while fetching data", error);
+    throw error; // Re-throw the error to handle it elsewhere if needed
+  }
+}
+
