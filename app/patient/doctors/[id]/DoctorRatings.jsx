@@ -3,6 +3,8 @@
 import NoDataMessage from "@/components/NoDataMessage";
 import { useEffect, useState } from "react";
 import { getCollectionDB, getDB } from "@/functions/firebase";
+import Star from "@/components/Star";
+
 
 const DoctorRatings = ({ doctor, id }) => {
   const [finishedConsult, setFinishedConsult] = useState(0);
