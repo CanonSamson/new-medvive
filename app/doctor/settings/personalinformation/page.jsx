@@ -10,6 +10,7 @@ import AddressPopUp from "./AddressPopUp";
 import { useRouter } from "next/navigation";
 import { useDoctor } from "../../Context";
 import GenderPopUp from "./GenderPopUp";
+import DateOfBirthPopUp from "./DateOfBirthPopUp";
 
 const PersonalInformation = () => {
   const { patientDetail, pending, auth } = useDoctor();
@@ -21,7 +22,7 @@ const PersonalInformation = () => {
     if (!auth.currentUser || !patientDetail) {
       router.push("/patient/login");
     }
-  }, [pending]);
+  }, [pending, auth.currentUser, patientDetail]);
 
   if (pending) {
     return (
