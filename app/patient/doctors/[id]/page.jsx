@@ -22,7 +22,7 @@ const ConsultDocterPage = () => {
   const [doctor, setDoctor] = useState({});
   const [submit, setSubmit] = useState(false);
 
-  const { auth, patientDetail, getPatientData } = usePatient();
+  const { auth, patientDetail, getPatientData, doctors } = usePatient();
 
   const [selectedMethodIndex, setSelectedMethodIndex] = useState({});
   const { dateRange, selectedRange, timeData, selectedTime, timestamp } =
@@ -105,8 +105,7 @@ const ConsultDocterPage = () => {
   }, [selectedRange, selectedMethodIndex, selectedTime]);
 
   const GetDoctor = async () => {
-    const { data: doctor } = await getDB("doctors", id);
-
+    const doctor = doctors.find((doc) => doc.uid === id);
     setDoctor(doctor);
 
     setConsultationId(ID_GENERATOR());
@@ -114,7 +113,7 @@ const ConsultDocterPage = () => {
 
   useEffect(() => {
     GetDoctor();
-  }, [id]);
+  }, [id, doctors]);
 
   return (
     <LayoutPage>

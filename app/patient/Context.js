@@ -37,6 +37,8 @@ export function PatientProvider({ children }) {
     if (!auth.currentUser && isSigning) return null;
     try {
       const { data: patient } = await getDB("patients", auth.currentUser.uid);
+      const { Data: doctors } = await getCollectionDB("doctors");
+      setDoctors(doctors);
       setPatientDetail(patient);
       return { patient };
     } catch (error) {

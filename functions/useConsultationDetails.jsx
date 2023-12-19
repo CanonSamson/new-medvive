@@ -8,7 +8,7 @@ export function useConsultationDetails({ consultationId }) {
   const [doctorConsultation, setDoctorConsultation] = useState(null);
   const [patientConsultation, setPatientConsultation] = useState(null);
   const [isFetching, setIsFetching] = useState("fetching");
-  const { consultations, pending, patientDetail } = usePatient();
+  const { consultations, pending, patientDetail, doctors } = usePatient();
   const [doctor, setDoctor] = useState(null);
 
   const getData = async () => {
@@ -18,14 +18,13 @@ export function useConsultationDetails({ consultationId }) {
       const patientConsult = consultations.find(
         (consult) => consult.consultationId == consultationId
       );
+      const doctor = doctors.find(
+        (consult) => patientConsult.doctorId == consult.uid
+      );
+
       if (patientConsult) {
-        console.log("canon is f ");
         const { data: doctorConsultations } = await getDB(
           "consultations",
-          patientConsult.doctorId
-        );
-        const { data: doctorData } = await getDB(
-          "doctors",
           patientConsult.doctorId
         );
 
@@ -38,7 +37,7 @@ export function useConsultationDetails({ consultationId }) {
         setPatientConsultation(patientConsult);
 
         setIsFetching("fetched");
-        setDoctor(doctorData);
+        setDoctor(doctor);
       }
     } catch (err) {
       setIsFetching("error");

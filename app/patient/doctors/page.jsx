@@ -15,7 +15,7 @@ import LayoutPage from "../LayoutPage";
 
 const ConsultationsPage = () => {
   const { aproved } = patientPrivateRoute();
-  const { getDoctors } = usePatient();
+  const {  doctors } = usePatient();
   const [fetching, setFetching] = useState("fetching");
   const [verifyDoctors, setVerifyDoctors] = useState([]);
 
@@ -23,7 +23,6 @@ const ConsultationsPage = () => {
 
   const getVerifyDoctors = async () => {
     try {
-      const { doctors } = await getDoctors();
       const verifyDoctors = doctors.filter(
         (doctor) =>
           doctor.bio &&
