@@ -7,6 +7,7 @@ import { useConsultationDetails } from "@/functions/useConsultationDetails";
 import { patientPrivateRoute } from "@/functions/auth";
 import { MdOutlineDateRange } from "react-icons/md";
 import LayoutPage from "../../LayoutPage";
+import Star from "@/components/Star";
 
 const Consultation = () => {
   const { aproved } = patientPrivateRoute();
