@@ -86,13 +86,9 @@ const Consult = ({ doctors, consultations }) => {
                         </button>
                         <button
                           onClick={async () => {
-                            if (item.status !== "Upcoming") {
-                              await saveNewBooking();
-                              await getUser();
-                              router.push(
-                                `/bookingroom/${item.consultationId}`
-                              );
-                            }
+                            router.push(
+                              `/patient/consultations/${item.consultationId}`
+                            );
                           }}
                           className={` ${
                             item.status === "Upcoming" && " animate-pulse"

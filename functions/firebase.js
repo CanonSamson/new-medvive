@@ -52,9 +52,8 @@ export const getDB = async (collectionName, documentId) => {
     const dataDoc = await getDoc(doc(db, collectionName, documentId));
     const data = dataDoc.data();
     return { data };
-  } catch (err) {
-    console.error(err);
-    return err;
+  } catch (error) {
+    return { error };
   }
 };
 
