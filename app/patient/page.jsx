@@ -12,10 +12,11 @@ import { updateGreeting } from "@/functions/greeting";
 import { patientPrivateRoute } from "@/functions/auth";
 
 const Dashoard = () => {
-  const { patientDetail,  auth } = usePatient();
+  const { aproved } = patientPrivateRoute();
+  const { patientDetail, auth } = usePatient();
 
-  patientPrivateRoute();
   return (
+    aproved &&
     auth.currentUser && (
       <LayoutPage>
         <div className="text-dark w-full px-4 pb-[80px] relative md:max-w-[400px] md:h-screen overflow-auto min-h-screen bg-brandwhite">

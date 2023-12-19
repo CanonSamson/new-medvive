@@ -36,7 +36,7 @@ export function PatientProvider({ children }) {
   async function getPatientData() {
     if (!auth.currentUser && isSigning) return null;
     try {
-      const {data: patient } = await getDB("patients", auth.currentUser.uid);
+      const { data: patient } = await getDB("patients", auth.currentUser.uid);
       setPatientDetail(patient);
       return { patient };
     } catch (error) {
@@ -46,7 +46,7 @@ export function PatientProvider({ children }) {
   }
 
   async function getDoctors() {
-    if (!auth.currentUser && isSigning) return null;
+    if (!auth.currentUser) return null;
     try {
       const { Data: doctors } = await getCollectionDB("doctors");
       setDoctors(doctors);
@@ -58,6 +58,7 @@ export function PatientProvider({ children }) {
   }
 
   const getPatientDetail = async () => {
+    if (!auth.currentUser) return null;
     try {
       const { patient } = await getPatient();
       setPatientDetail(patient);
@@ -88,9 +89,9 @@ export function PatientProvider({ children }) {
         doc(db, "consultations", auth.currentUser.uid),
         (doc) => {
           const source = doc.metadata.hasPendingWrites ? "Local" : "Server";
-          console.log(source, " setconsultations: ", doc.data());
+          console.log(source, " setconsultations: ", doc.data().data);
           if (doc.data()) {
-            setConsultations(doc.data());
+            setConsultations(doc.data().data);
           }
         }
       );

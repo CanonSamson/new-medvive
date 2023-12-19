@@ -14,7 +14,7 @@ const Navigation = () => {
         <span className="text-[8px] opacity-80">Patient</span>
       </CustomNavLink>
 
-      <CustomNavLink href="/bookings">
+      <CustomNavLink href="/patient/consultations">
         <Icon name="consult" size={20} />
         <span className="text-[8px] opacity-80">Consultations</span>
       </CustomNavLink>

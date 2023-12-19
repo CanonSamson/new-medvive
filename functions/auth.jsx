@@ -28,4 +28,6 @@ export const patientPrivateRoute = () => {
       </div>
     );
   }
+
+  return { aproved: true };
 };

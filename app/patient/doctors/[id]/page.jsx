@@ -14,6 +14,7 @@ import { useDateRange } from "@/functions/useDateRange";
 import DoctorRatings from "./DoctorRatings";
 import Button from "@/components/Button";
 import { patientPrivateRoute } from "@/functions/auth";
+import LayoutPage from "../../LayoutPage";
 
 const ConsultDocterPage = () => {
   patientPrivateRoute();
@@ -48,6 +49,7 @@ const ConsultDocterPage = () => {
               consultationId: consultationId,
               status: "Upcoming",
               active: true,
+              message: "sent",
             },
           ],
         },
@@ -64,10 +66,11 @@ const ConsultDocterPage = () => {
               date: date,
               time: time,
               consultatedAt: timestamp,
-              userId: patientDetail.id,
+              userId: patientDetail.uid,
               active: true,
               consultationId: consultationId,
               status: "Upcoming",
+              message: "sent",
             },
           ],
         },
@@ -114,14 +117,14 @@ const ConsultDocterPage = () => {
   }, [id]);
 
   return (
-    <>
+    <LayoutPage>
       <div className=" w-full flex   relative h-screen text-base">
         <div
           className="left-0 
             fixed   flex flex-col top-0 overflow-y-auto  h-screen w-full z-50 duration-700"
         >
           <section className=" pb-[200px] bg-brandwhite rounded-t-2xl  w-full right-0 p-4 ">
-            <PageHeaderWithBackButton to="/doctors" text="Doctor profile" />
+            <PageHeaderWithBackButton href="/patient/doctors" text="Doctor profile" />
 
             <div className=" grid gap-2 ">
               <DoctorCard
@@ -267,7 +270,7 @@ const ConsultDocterPage = () => {
           </section>
         </div>
       </div>
-    </>
+    </LayoutPage>
   );
 };
 
