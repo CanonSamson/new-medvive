@@ -49,7 +49,7 @@ const ConsultDocterPage = () => {
               consultationId: consultationId,
               status: "Upcoming",
               active: true,
-              message: "sent",
+              messageStatus: "sent",
             },
           ],
         },
@@ -70,7 +70,7 @@ const ConsultDocterPage = () => {
               active: true,
               consultationId: consultationId,
               status: "Upcoming",
-              message: "sent",
+              messageStatus: "sent",
             },
           ],
         },
@@ -124,7 +124,10 @@ const ConsultDocterPage = () => {
             fixed   flex flex-col top-0 overflow-y-auto  h-screen w-full z-50 duration-700"
         >
           <section className=" pb-[200px] bg-brandwhite rounded-t-2xl  w-full right-0 p-4 ">
-            <PageHeaderWithBackButton href="/patient/doctors" text="Doctor profile" />
+            <PageHeaderWithBackButton
+              href="/patient/doctors"
+              text="Doctor profile"
+            />
 
             <div className=" grid gap-2 ">
               <DoctorCard
@@ -257,7 +260,7 @@ const ConsultDocterPage = () => {
                 ))}
               </ul>
               <p className=" text-red-600 pt-2">
-                {touched.time && errors.time && errors.time}
+                {touched.time && errors?.time}
               </p>
             </div>
 

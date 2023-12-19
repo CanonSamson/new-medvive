@@ -11,30 +11,35 @@ import SubHeader from "@/components/SubHeader";
 import Link from "next/link";
 import Image from "next/image";
 import { patientPrivateRoute } from "@/functions/auth";
+import LayoutPage from "../LayoutPage";
 
 const ConsultationsPage = () => {
   const { aproved } = patientPrivateRoute();
-  const { doctors, getDoctors } = usePatient();
-  const [loading, setloading] = useState(true);
+  const { getDoctors } = usePatient();
+  const [fetching, setFetching] = useState("fetching");
   const [verifyDoctors, setVerifyDoctors] = useState([]);
 
   const router = useRouter();
 
   const getVerifyDoctors = async () => {
-    const { doctors } = await getDoctors();
-    const verifyDoctors = doctors.filter(
-      (doctor) =>
-        doctor.bio &&
-        doctor.education &&
-        doctor.education.length >= 1 &&
-        doctor.profilePicture &&
-        doctor.specialty
-    );
-    setVerifyDoctors(verifyDoctors);
-    console.log(doctors);
+    try {
+      const { doctors } = await getDoctors();
+      const verifyDoctors = doctors.filter(
+        (doctor) =>
+          doctor.bio &&
+          doctor.education &&
+          doctor.education.length >= 1 &&
+          doctor.profilePicture &&
+          doctor.specialty
+      );
+      setVerifyDoctors(verifyDoctors);
 
-    if (doctors.length > 0) {
-      setloading(false);
+      if (doctors.length > 0) {
+        setFetching("fetched");
+      }
+    } catch (err) {
+      console.log(err);
+      setFetching("error");
     }
   };
   useEffect(() => {
@@ -43,7 +48,7 @@ const ConsultationsPage = () => {
 
   return (
     aproved && (
-      <>
+      <LayoutPage>
         <Image
           className=" fixed right-0 top-36 z-0"
           src="/images/Vector.svg"
@@ -66,7 +71,7 @@ const ConsultationsPage = () => {
 
             <SubHeader href="#" text="Doctors" />
 
-            {!loading ? (
+            {fetching === "fetched" && (
               <div className=" grid gap-2 ">
                 {verifyDoctors.map((doctor, index) => (
                   <DoctorCard
@@ -82,15 +87,19 @@ const ConsultationsPage = () => {
                   />
                 ))}
               </div>
-            ) : (
-              <div className="  grid gap-4 mt-4 ">
-                <div className=" relative rounded-lg animate-pulse h-[120px] w-full bg-white flex "></div>
-                <div className=" relative rounded-lg animate-pulse h-[120px] w-full bg-white flex "></div>
+            )}
+            {fetching === "fetching" && (
+              <div className="flex justify-center  gap-4 mt-4 ">
+                Loading....
               </div>
+            )}
+
+            {fetching === "error" && (
+              <div className="flex justify-center  gap-4 mt-4 ">error</div>
             )}
           </section>
         </div>
-      </>
+      </LayoutPage>
     )
   );
 };

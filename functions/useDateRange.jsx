@@ -33,7 +33,7 @@ export function useDateRange() {
 
       // Create an array of time slots
       const timeSlots = [];
-      for (let i = 0; i < 6; i++) {
+      for (let i = 0; i < 12; i++) {
         // Adjust the loop count as needed
         let time = currentTime.getHours() >= 12 ? "PM" : "AM"; // Initialize with AM or PM
 
@@ -49,20 +49,29 @@ export function useDateRange() {
         const onClick = () => setSelectedTime(time);
         timeSlots.push({ time, onClick });
 
-        // Increment time by 30 minutes for the next slot
-        currentTime.setMinutes(currentTime.getMinutes() + 30);
+        if (timeSlots.length > 1) {
+          // Increment time by 30 minutes for the next slot
+          currentTime.setMinutes(currentTime.getHours() + 1);
+        }
       }
 
       // Update the state with the generated time slots
-      setTimeData(timeSlots);
+      setTimeData([...timeSlots]);
     } else {
       setTimeData([
-        { time: "09:00 AM", onClick: () => setSelectedTime("09:00 AM") },
-        { time: "09:30 AM", onClick: () => setSelectedTime("09:30 AM") },
+        { time: "9:00 AM", onClick: () => setSelectedTime("9:00 AM") },
         { time: "10:00 AM", onClick: () => setSelectedTime("10:00 AM") },
-        { time: "09:00 PM", onClick: () => setSelectedTime("09:00 PM") },
-        { time: "09:30 PM", onClick: () => setSelectedTime("09:30 PM") },
-        { time: "10:00 PM", onClick: () => setSelectedTime("10:00 PM") },
+        { time: "11:00 AM", onClick: () => setSelectedTime("11:00 AM") },
+        { time: "12:00 AM", onClick: () => setSelectedTime("12:00 AM") },
+        { time: "1:00 PM", onClick: () => setSelectedTime("1:00 PM") },
+        { time: "2:00 PM", onClick: () => setSelectedTime("2:00 AM") },
+        { time: "3:00 PM", onClick: () => setSelectedTime("3:00 AM") },
+        { time: "4:00 PM", onClick: () => setSelectedTime("4:00 AM") },
+        { time: "5:00 PM", onClick: () => setSelectedTime("5:00 AM") },
+        { time: "6:00 PM", onClick: () => setSelectedTime("6:00 AM") },
+        { time: "7:00 PM", onClick: () => setSelectedTime("7:00 AM") },
+        { time: "8:00 PM", onClick: () => setSelectedTime("8:00 PM") },
+        { time: "9:00 PM", onClick: () => setSelectedTime("9:00 PM") },
       ]);
     }
   }, [selectedRange]);

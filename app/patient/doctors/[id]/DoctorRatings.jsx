@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { getCollectionDB, getDB } from "@/functions/firebase";
 import Star from "@/components/Star";
 
-
 const DoctorRatings = ({ doctor, id }) => {
   const [finishedConsult, setFinishedConsult] = useState(0);
   const [doctorConsultations, setDoctorConsultations] = useState(null);
@@ -64,8 +63,8 @@ const DoctorRatings = ({ doctor, id }) => {
 
 export default DoctorRatings;
 
-const ConsultRating = ({ user, ratings, booking }) => {
-  return booking && user ? (
+const ConsultRating = ({ user, ratings, consultation }) => {
+  return consultation && user ? (
     <div className="flex border-b pb-2 flex-col">
       <div className="flex justify-between items-center pb-1">
         <span>{user.name}</span>
@@ -75,7 +74,7 @@ const ConsultRating = ({ user, ratings, booking }) => {
       </div>
       <span>{ratings?.review}</span>
       <span className="text-end text-[10px]">
-        {booking?.date}-{booking?.time}
+        {consultation?.date}-{consultation?.time}
       </span>
     </div>
   ) : (
