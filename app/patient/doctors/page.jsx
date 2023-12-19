@@ -22,6 +22,7 @@ const ConsultationsPage = () => {
   const router = useRouter();
 
   const getVerifyDoctors = async () => {
+    if (!doctors) return;
     try {
       const verifyDoctors = doctors.filter(
         (doctor) =>
@@ -37,10 +38,10 @@ const ConsultationsPage = () => {
         setFetching("fetched");
       }
     } catch (err) {
-      console.log(err);
       setFetching("error");
     }
   };
+
   useEffect(() => {
     getVerifyDoctors();
   }, []);

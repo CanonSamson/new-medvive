@@ -105,6 +105,7 @@ const ConsultDocterPage = () => {
   }, [selectedRange, selectedMethodIndex, selectedTime]);
 
   const GetDoctor = async () => {
+    if (!doctors) return;
     const doctor = doctors.find((doc) => doc.uid === id);
     setDoctor(doctor);
 
