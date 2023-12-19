@@ -12,6 +12,7 @@ const DoctorCard = ({ Name, Img, specialty, onClick, languages, stars }) => {
             alt=""
             width={80}
             height={80}
+            loading="lazy"
           />
         </div>
         <div className="flex flex-col items-start ">

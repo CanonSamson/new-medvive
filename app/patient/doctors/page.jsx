@@ -10,16 +10,23 @@ import SearchInput from "@/components/SearchInput";
 import SubHeader from "@/components/SubHeader";
 import Link from "next/link";
 import Image from "next/image";
-import { patientPrivateRoute } from "@/functions/auth";
 import LayoutPage from "../LayoutPage";
 
 const ConsultationsPage = () => {
-  const { aproved } = patientPrivateRoute();
-  const {  doctors } = usePatient();
+  const { doctors, pending, patientDetail, auth } = usePatient();
   const [fetching, setFetching] = useState("fetching");
   const [verifyDoctors, setVerifyDoctors] = useState([]);
-
   const router = useRouter();
+
+
+  useEffect(() => {
+    if (pending) return;
+    if (!auth.currentUser || !patientDetail) {
+      router.push("/");
+    }
+  }, [pending]);
+
+
 
   const getVerifyDoctors = async () => {
     if (!doctors) return;
@@ -34,9 +41,7 @@ const ConsultationsPage = () => {
       );
       setVerifyDoctors(verifyDoctors);
 
-      if (doctors.length > 0) {
-        setFetching("fetched");
-      }
+      setFetching("fetched");
     } catch (err) {
       setFetching("error");
     }
@@ -44,10 +49,24 @@ const ConsultationsPage = () => {
 
   useEffect(() => {
     getVerifyDoctors();
-  }, []);
+  }, [pending, doctors]);
+
+  if (pending) {
+    return (
+      <div className=" w-full bg-white h-screen relative flex justify-center items-center">
+        <Image
+          className="w-[120px] animate-bounce"
+          src="/logo.svg"
+          width={120}
+          height={100}
+          alt=""
+        />
+      </div>
+    );
+  }
 
   return (
-    aproved && (
+    auth.currentUser && (
       <LayoutPage>
         <Image
           className=" fixed right-0 top-36 z-0"

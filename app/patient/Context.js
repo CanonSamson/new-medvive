@@ -37,8 +37,6 @@ export function PatientProvider({ children }) {
     if (!auth.currentUser && isSigning) return null;
     try {
       const { data: patient } = await getDB("patients", auth.currentUser.uid);
-      const { Data: doctors } = await getCollectionDB("doctors");
-      setDoctors(doctors);
       setPatientDetail(patient);
       return { patient };
     } catch (error) {
@@ -63,6 +61,8 @@ export function PatientProvider({ children }) {
     if (!auth.currentUser) return null;
     try {
       const { patient } = await getPatient();
+      const { Data: doctors } = await getCollectionDB("doctors");
+      setDoctors(doctors);
       setPatientDetail(patient);
       setPending(false);
       console.log(patient);
