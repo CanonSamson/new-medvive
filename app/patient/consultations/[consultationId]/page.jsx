@@ -8,12 +8,15 @@ import LayoutPage from "../../LayoutPage";
 import Star from "@/components/Star";
 import LoadingPage from "@/components/LoadingPage";
 import { usePatient } from "../../Context";
-import { useLayoutEffect } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import DoctorCard from "@/components/DoctorCard";
+import CancelBookingPopUp from "./CancelBookingPopUp";
+import { seenConsultation } from "@/functions/consultations";
 
 const Consultation = () => {
   const { consultationId } = useParams();
-  const { pending, auth } = usePatient();
+  const { pending, auth, consultations } = usePatient();
+  const [cancelUpPop, setCancelUpPop] = useState(false);
 
   useLayoutEffect(() => {
     // Check authentication status when dependencies change
@@ -31,12 +34,21 @@ const Consultation = () => {
     patientDetail,
   } = useConsultationDetails({ consultationId });
 
+  useEffect(() => {
+    const seenConsult = async () => {
+      seenConsultation(patientDetail.uid, consultationId, consultations);
+    };
+    if (patientConsultation?.messageStatus === "sent") {
+      seenConsult();
+    }
+  }, [isFetching, patientConsultation, patientDetail]);
+
   if (pending) return <LoadingPage />;
 
   return (
     auth.currentUser && (
       <LayoutPage>
-        <div className=" text-base min-h-screen pb-[100px]">
+        <div className=" text-base bg-brandwhite min-h-screen pb-[100px]">
           <PageHeaderWithBackButton
             href="/patient/consultations"
             text="Consultation"
@@ -94,6 +106,26 @@ const Consultation = () => {
                   </span>
                 </div>
               )}
+
+              <CancelBookingPopUp
+                cancelUpPop={cancelUpPop}
+                setCancelUpPop={setCancelUpPop}
+                doctor={doctor}
+                consultationId={consultationId}
+              />
+
+              <div className="fixed right-0 duration-200 bottom-[60px] p-4 flex items-center w-full gap-2 mt-2">
+                <button className="flex items-center justify-center w-full bg-primary text-white text-base border rounded-lg h-[34px]">
+                  Message
+                </button>
+
+                <button
+                  onClick={() => setCancelUpPop(true)}
+                  className="justify-center items-center flex w-full text-base border-primary text-primary rounded-lg h-[34px]"
+                >
+                  Cancel Consultation
+                </button>
+              </div>
             </>
           ) : (
             <div className="flex justify-center">Loading....</div>

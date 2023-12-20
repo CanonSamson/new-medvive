@@ -4,6 +4,7 @@ import { MdOutlineDateRange } from "react-icons/md";
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { secondsToDate } from "@/functions/functions";
 
 const Consult = ({ patients, consultations }) => {
   const router = useRouter("");
@@ -19,8 +20,8 @@ const Consult = ({ patients, consultations }) => {
             <div key={index}>
               <div>
                 <div className="flex  duration-200 items-center gap-2 px-4 pb-2">
-                  <span className=" text-base text-gray-400 w-[300px]">
-                    {/* {secondsToDate(item.consultatedAt.seconds)} */}
+                <span className=" w-[300px] flex text-[12px] text-gray-400 ">
+                    {secondsToDate(item.consultatedAt.seconds)}
                   </span>
                   <span className=" w-full h-[0.2px] flex relative border border-dashed"></span>
                 </div>
@@ -91,8 +92,8 @@ const Consult = ({ patients, consultations }) => {
                           } flex items-center justify-center w-full text-base border  border-primary text-primary rounded-lg h-[34px]`}
                         >
                           {item.status !== "Upcoming"
-                            ? " View Booking"
-                            : "waiting to be confirmed..."}
+                            ? " View Consultation"
+                            : "Confirm Consultation"}
                         </button>
                       </div>
                     )}

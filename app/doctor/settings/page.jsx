@@ -26,7 +26,7 @@ const Settings = () => {
     if (!auth.currentUser && !pending) {
       redirect("/");
     }
-  }, []);
+  }, [doctorDetail, pending, loggingOut]);
 
   if (pending || loggingOut) return <LoadingPage />;
 

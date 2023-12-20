@@ -10,10 +10,13 @@ import { useLayoutEffect } from "react";
 import { useDoctorConsultationDetail } from "@/functions/useDoctorConsultationDetail";
 import LayoutPage from "../../LayoutPage";
 import DoctorCard from "@/components/DoctorCard";
+import { updateDB } from "@/functions/firebase";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "@/firebase-config";
 
 const Consultation = () => {
   const { consultationId } = useParams();
-  const { pending, auth } = useDoctor();
+  const { pending, auth, consultations } = useDoctor();
 
   useLayoutEffect(() => {
     // Check authentication status when dependencies change
@@ -31,12 +34,55 @@ const Consultation = () => {
     doctorDetail,
   } = useDoctorConsultationDetail({ consultationId });
 
+  const ConfirmBooking = async (consultationId, consultation, patient) => {
+    const timestamp = new Date();
+
+    let data;
+    const dataDoc = await getDoc(doc(db, "consultations", patient.uid));
+    data = dataDoc.exists() ? dataDoc.data() : null;
+
+    if (data) {
+      let patientConsultations = [...data.data]; // Make a copy of the array
+      let doctorConsultations = [...consultations]; // Make a copy of the array
+
+      // Find the index of the booking with the given ID in both arrays
+      const foundPatientIndex = patientConsultations.findIndex(
+        (consultaion) => consultaion.consultationId == consultationId
+      );
+      const foundDocIndex = doctorConsultations.findIndex(
+        (consultaion) => consultaion.consultationId == consultationId
+      );
+      // Check if both bookings were found
+      if (foundPatientIndex !== -1 && foundDocIndex !== -1) {
+        // Update the status to "Started" for both user and doctor bookings
+        patientConsultations[foundPatientIndex].status = "Started";
+        patientConsultations[foundPatientIndex].tostarted = timestamp;
+
+        doctorConsultations[foundDocIndex].status = "Started";
+        doctorConsultations[foundDocIndex].tostarted = timestamp;
+      }
+
+      try {
+        if (consultations?.length > 0) {
+          updateDB("consultations", patient.uid, {
+            data: patientConsultations,
+          });
+          updateDB("consultations", doctorDetail.uid, {
+            data: doctorConsultations,
+          });
+        }
+      } catch (error) {
+        console.error("Error updating item:", error);
+      }
+    }
+  };
+
   if (pending) return <LoadingPage />;
 
   return (
     auth.currentUser && (
       <LayoutPage>
-        <div className=" text-base min-h-screen pb-[100px]">
+        <div className=" text-base  bg-brandwhite min-h-screen pb-[100px]">
           <PageHeaderWithBackButton
             href="/doctor/consultations"
             text="Consultation"
@@ -102,6 +148,27 @@ const Consultation = () => {
           ) : (
             <div className="flex justify-center">Loading....</div>
           )}
+        </div>
+
+        <div className="fixed right-0 duration-200 bottom-[60px] p-4 flex items-center w-full gap-2 mt-2">
+          {doctorConsultation?.status === "Upcomming" && (
+            <button
+              onClick={async () => {
+                await ConfirmBooking(
+                  consultationId,
+                  doctorConsultation,
+                  patient
+                );
+              }}
+              className="flex items-center justify-center w-full bg-primary text-white text-base border rounded-lg h-[34px]"
+            >
+              Confirm Consultation
+            </button>
+          )}
+
+          <button className="justify-center items-center flex w-full text-base border-primary text-primary rounded-lg h-[34px]">
+            Message
+          </button>
         </div>
       </LayoutPage>
     )

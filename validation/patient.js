@@ -9,3 +9,7 @@ export const BookAppointmentSchema = yup.object().shape({
   date: yup.string().required(),
   time: yup.string().required(),
 });
+
+export const CancelBookingSchema = yup.object().shape({
+  cancelMassage: yup.string().required(),
+});

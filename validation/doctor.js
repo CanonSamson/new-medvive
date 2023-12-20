@@ -65,6 +65,3 @@ export const LanguagesSettingSchema = yup.object().shape({
 });
 
 
-export const CancelBookingSchema = yup.object().shape({
-  bookingcancelmassage: yup.string().required(),
-});

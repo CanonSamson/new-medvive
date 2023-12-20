@@ -4,6 +4,7 @@ import { MdOutlineDateRange } from "react-icons/md";
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { secondsToDate } from "@/functions/functions";
 
 const Consult = ({ doctors, consultations }) => {
   const router = useRouter("");
@@ -19,12 +20,17 @@ const Consult = ({ doctors, consultations }) => {
             <div key={index}>
               <div>
                 <div className="flex  duration-200 items-center gap-2 px-4 pb-2">
-                  <span className=" text-base text-gray-400 w-[300px]">
-                    {/* {secondsToDate(item.consultatedAt.seconds)} */}
+                <span className=" w-[300px] flex text-[12px] text-gray-400 ">
+                    {secondsToDate(item.consultatedAt.seconds)}
                   </span>
                   <span className=" w-full h-[0.2px] flex relative border border-dashed"></span>
                 </div>
                 <div
+                  onClick={async () => {
+                    router.push(
+                      `/patient/consultations/${item.consultationId}`
+                    );
+                  }}
                   className={` ${
                     item.status === "Canceled" && " border border-red-500"
                   }  gap-2 bg-white relative z-[10]   rounded-xl p-3`}
@@ -85,11 +91,6 @@ const Consult = ({ doctors, consultations }) => {
                           {item.active === true ? "Message" : "Reschedule"}
                         </button>
                         <button
-                          onClick={async () => {
-                            router.push(
-                              `/patient/consultations/${item.consultationId}`
-                            );
-                          }}
                           className={` ${
                             item.status === "Upcoming" && " animate-pulse"
                           } flex items-center justify-center w-full text-base border  border-primary text-primary rounded-lg h-[34px]`}
@@ -103,7 +104,7 @@ const Consult = ({ doctors, consultations }) => {
                   </div>
                   {item.status === "Canceled" && (
                     <div className=" text-base bg-red-500 text-white text-center  rounded py-[2px]">
-                      this booking was canceled
+                      this consultation was canceled by you
                     </div>
                   )}
                 </div>

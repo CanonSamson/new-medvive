@@ -35,4 +35,53 @@ export function secondsToTimeFormat(seconds) {
   return formattedTime;
 }
 
+export function findBooking(consultationP, consultationD, consultationId) {
+  let patientConsultations = [...consultationP]; // Make a copy of the array
+  let doctorConsultations = [...consultationD]; // Make a copy of the array
+  let foundPatientIndex;
+  let foundDocIndex;
 
+  const docbooking = doctorConsultations.find(
+    (i) => i.consultationId === consultationId
+  );
+  foundDocIndex = doctorConsultations.indexOf(docbooking);
+
+  const userbooking = patientConsultations.find(
+    (i) => i.consultationId === consultationId
+  );
+  foundPatientIndex = patientConsultations.indexOf(userbooking);
+
+  return { foundPatientIndex, foundDocIndex };
+}
+
+export function nanosecondsToDate(nanoseconds) {
+  // Convert nanoseconds to milliseconds (1 nanosecond = 0.000001 millisecond)
+  const milliseconds = nanoseconds * 0.000001;
+
+  // Create a Date object with the milliseconds value
+  const date = new Date(milliseconds);
+
+  return date;
+}
+
+export function secondsToDate(seconds) {
+  // Convert seconds to milliseconds (1 second = 1000 milliseconds)
+  const milliseconds = seconds * 1000;
+
+  // Create a Date object with the milliseconds value
+  const date = new Date(milliseconds);
+
+  return formatDate(date);
+}
+
+function formatDate(date) {
+  const options = {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  };
+  return date.toLocaleString(undefined, options);
+}
