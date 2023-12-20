@@ -52,23 +52,24 @@ export function PatientProvider({ children }) {
       setDoctors(doctors);
       return { doctors };
     } catch (error) {
-      // Handle error if necessary
       console.error("Error fetching doctors", error);
     }
   }
 
   const getPatientDetail = async () => {
-    if (!auth.currentUser) return null;
-    try {
-      const { patient } = await getPatient();
-      const { Data: doctors } = await getCollectionDB("doctors");
-      setDoctors(doctors);
-      setPatientDetail(patient);
+    if (!auth.currentUser) {
+      try {
+        const { patient } = await getPatient();
+        const { Data: doctors } = await getCollectionDB("doctors");
+        setDoctors(doctors);
+        setPatientDetail(patient);
+        setPending(false);
+      } catch (error) {
+        console.error("Error fetching  patient:", error);
+        setPending(false);
+      }
+    } else {
       setPending(false);
-      console.log(patient);
-    } catch (error) {
-      // Handle error if necessary
-      console.error("Error fetching  patient:", error);
     }
   };
 

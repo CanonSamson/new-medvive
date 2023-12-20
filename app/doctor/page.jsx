@@ -11,6 +11,7 @@ import { updateGreeting } from "@/functions/greeting";
 import { useDoctor } from "./Context";
 import SearchInput from "@/components/SearchInput";
 import SubHeader from "@/components/SubHeader";
+import LoadingPage from "@/components/LoadingPage";
 
 const Home = () => {
   const { doctorDetail, pending, auth } = useDoctor();
@@ -18,24 +19,10 @@ const Home = () => {
 
   useEffect(() => {
     if (pending) return;
-    if (!auth.currentUser || !doctorDetail) {
-      router.push("/");
-    }
-  }, [pending, auth.currentUser, doctorDetail, router]);
+    if (!doctorDetail || !auth.currentUser) router.push("/");
+  }, [pending, doctorDetail, auth.currentUser]);
 
-  if (pending) {
-    return (
-      <div className=" w-full bg-white h-screen relative flex justify-center items-center">
-        <Image
-          className="w-[120px] animate-bounce"
-          src="/logo.svg"
-          width={120}
-          height={100}
-          alt=""
-        />
-      </div>
-    );
-  }
+  if (pending) return <LoadingPage />;
 
   return (
     auth.currentUser && (
@@ -62,12 +49,12 @@ const Home = () => {
                 </>
               </Link>
 
-              <Link href="/dashboard/patient/settings">
+              <Link href="/doctor/settings">
                 <Image
                   className="w-[40px] rounded-full h-[40px] object-cover skeleton"
                   src={
-                    doctorDetail.profilePicture ||
-                    (doctorDetail.gender === "Male"
+                    doctorDetail?.profilePicture ||
+                    (doctorDetail?.gender === "Male"
                       ? "/images/Avatar.png"
                       : "/images/Avatar.png")
                   }

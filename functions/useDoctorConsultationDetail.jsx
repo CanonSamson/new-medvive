@@ -1,42 +1,42 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { usePatient } from "@/app/patient/Context";
 import { getDB } from "./firebase";
+import { useDoctor } from "@/app/doctor/Context";
 
-export function useConsultationDetails({ consultationId }) {
+export function useDoctorConsultationDetail({ consultationId }) {
   const [doctorConsultation, setDoctorConsultation] = useState(null);
   const [patientConsultation, setPatientConsultation] = useState(null);
   const [isFetching, setIsFetching] = useState("fetching");
-  const { consultations, pending, doctors, patientDetail } = usePatient();
-
-  const [doctor, setDoctor] = useState(null);
+  const { consultations, pending, patients } = useDoctor();
+  const [patient, setPatient] = useState(null);
 
   const getData = async () => {
     try {
       if (consultations && !pending) {
         setIsFetching("fetching");
 
-        const patientConsult = consultations.find(
+        const doctorConsult = consultations.find(
           (consult) => consult.consultationId == consultationId
         );
-        const doctor = doctors.find(
-          (consult) => patientConsult.doctorId == consult.uid
+
+        const patient = patients.find(
+          (consult) => doctorConsult.patientId == consult.uid
         );
 
-        if (patientConsult) {
-          const { data: doctorConsultations } = await getDB(
+        if (doctorConsult) {
+          const { data: patientConsultations } = await getDB(
             "consultations",
-            patientConsult.doctorId
+            doctorConsult.patientId
           );
 
-          const doctorConsult = doctorConsultations.data.find(
+          const patientConsult = patientConsultations.data.find(
             (consult) => consult.consultationId == consultationId
           );
 
           setDoctorConsultation(doctorConsult);
           setPatientConsultation(patientConsult);
-          setDoctor(doctor);
+          setPatient(patient);
 
           setIsFetching("fetched");
         }
@@ -53,7 +53,7 @@ export function useConsultationDetails({ consultationId }) {
   return {
     doctorConsultation,
     patientConsultation,
-    doctor,
+    patient,
     isFetching,
     patientDetail,
   };

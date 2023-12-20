@@ -6,6 +6,8 @@ import { getAuth } from "firebase/auth";
 import { signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { getDoctor } from "@/functions/doctor";
+import { db } from "@/firebase-config";
+import { doc, onSnapshot } from "firebase/firestore";
 
 const DoctorContext = createContext();
 
@@ -18,7 +20,9 @@ export function DoctorProvider({ children }) {
 
   const [pending, setPending] = useState(true);
   const [doctorDetail, setDoctorDetail] = useState(null);
+  const [patients, setPatients] = useState(null);
   const [isSigning, setIsSigning] = useState(false);
+  const [consultations, setConsultations] = useState(null);
 
   const auth = getAuth();
 
@@ -41,14 +45,19 @@ export function DoctorProvider({ children }) {
   }
 
   const getDoctorDetail = async () => {
-    try {
-      const { doctor } = await getDoctor();
-      setDoctorDetail(doctor);
+    if (!auth.currentUser) {
+      try {
+        const { doctor } = await getDoctor();
+        const { Data: patients } = await getCollectionDB("patients");
+        setPatients(patients);
+        setDoctorDetail(doctor);
+        setPending(false);
+      } catch (error) {
+        setPending(false);
+        console.error("Error fetching user user:", error);
+      }
+    } else {
       setPending(false);
-      console.log(doctor);
-    } catch (error) {
-      // Handle error if necessary
-      console.error("Error fetching user user:", error);
     }
   };
 
@@ -65,6 +74,23 @@ export function DoctorProvider({ children }) {
     getDoctorDetail();
   }, []);
 
+  useEffect(() => {
+    if (doctorDetail) {
+      const unsub = onSnapshot(
+        doc(db, "consultations", auth.currentUser.uid),
+        (doc) => {
+          const source = doc.metadata.hasPendingWrites ? "Local" : "Server";
+          console.log(source, " setconsultations: ", doc.data().data);
+          if (doc.data()) {
+            setConsultations(doc.data().data);
+          }
+        }
+      );
+
+      return () => unsub();
+    }
+  }, [doctorDetail]);
+
   const value = {
     auth,
     doctorDetail,
@@ -72,6 +98,8 @@ export function DoctorProvider({ children }) {
     pending,
     setIsSigning,
     getDoctorData,
+    patients,
+    consultations,
   };
   return (
     <DoctorContext.Provider value={value}>{children}</DoctorContext.Provider>

@@ -20,7 +20,7 @@ const Navigation = () => {
   }, [consultations]);
   return (
     <div
-      className={`  grid-cols-5  z-[40] bg-white shadow-gray-400 border-t md:max-w-[400px]
+      className={`  grid-cols-5  z-50 bg-white shadow-gray-400 border-t md:max-w-[400px]
       text-[#929CAD] fixed h-[60px] bottom-0  left-0 w-full grid justify-center items-center`}
     >
       <CustomNavLink href="/patient">

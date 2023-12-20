@@ -79,7 +79,7 @@ const PersonalInformation = () => {
         />
 
         <div className=" fixed top-0 z-50  w-full bg-brandwhite right-0 flex  items-center p-4">
-          <Link href="/dashboard/patient/settings">
+          <Link href="/patient/settings">
             <IoIosArrowBack size={24} />
           </Link>
           <h4 className=" font-semibold text-xl">Personal Information</h4>
