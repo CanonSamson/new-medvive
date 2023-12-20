@@ -13,32 +13,34 @@ export function useConsultationDetails({ consultationId }) {
 
   const getData = async () => {
     try {
-      if (!consultations && pending) return;
-      console.log("canon is f ubfuf");
-      const patientConsult = consultations.find(
-        (consult) => consult.consultationId == consultationId
-      );
-      const doctor = doctors.find(
-        (consult) => patientConsult.doctorId == consult.uid
-      );
+      if (consultations && !pending) {
+        setIsFetching("fetching")
 
-      if (patientConsult) {
-        const { data: doctorConsultations } = await getDB(
-          "consultations",
-          patientConsult.doctorId
-        );
-
-        const doctorConsult = doctorConsultations.data.find(
+        const patientConsult = consultations.find(
           (consult) => consult.consultationId == consultationId
         );
+        const doctor = doctors.find(
+          (consult) => patientConsult.doctorId == consult.uid
+        );
 
-        console.log(doctorConsult);
-        setDoctorConsultation(doctorConsult);
-        setPatientConsultation(patientConsult);
+        if (patientConsult) {
+          const { data: doctorConsultations } = await getDB(
+            "consultations",
+            patientConsult.doctorId
+          );
 
-        setIsFetching("fetched");
-        setDoctor(doctor);
-      }
+          const doctorConsult = doctorConsultations.data.find(
+            (consult) => consult.consultationId == consultationId
+          );
+
+          setDoctorConsultation(doctorConsult);
+          setPatientConsultation(patientConsult);
+          setDoctor(doctor);
+
+
+          setIsFetching("fetched");
+        }
+      };
     } catch (err) {
       setIsFetching("error");
     }

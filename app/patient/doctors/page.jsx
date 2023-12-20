@@ -11,6 +11,7 @@ import SubHeader from "@/components/SubHeader";
 import Link from "next/link";
 import Image from "next/image";
 import LayoutPage from "../LayoutPage";
+import LoadingPage from "@/components/LoadingPage";
 
 const ConsultationsPage = () => {
   const { doctors, pending, patientDetail, auth } = usePatient();
@@ -51,20 +52,7 @@ const ConsultationsPage = () => {
     getVerifyDoctors();
   }, [pending, doctors]);
 
-  if (pending) {
-    return (
-      <div className=" w-full bg-white h-screen relative flex justify-center items-center">
-        <Image
-          className="w-[120px] animate-bounce"
-          src="/logo.svg"
-          width={120}
-          height={100}
-          alt=""
-        />
-      </div>
-    );
-  }
-
+  if (pending) return <LoadingPage />
   return (
     auth.currentUser && (
       <LayoutPage>

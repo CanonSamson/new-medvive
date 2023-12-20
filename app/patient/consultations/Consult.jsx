@@ -96,7 +96,7 @@ const Consult = ({ doctors, consultations }) => {
                         >
                           {item.status !== "Upcoming"
                             ? " View Booking"
-                            : " waiting to be confirmed..."}
+                            : "waiting to be confirmed..."}
                         </button>
                       </div>
                     )}

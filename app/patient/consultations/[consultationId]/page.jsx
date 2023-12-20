@@ -2,17 +2,27 @@
 
 import DoctorCard from "../../DoctorCard";
 import PageHeaderWithBackButton from "@/components/PageHeaderWithBackButton";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useConsultationDetails } from "@/functions/useConsultationDetails";
-import { patientPrivateRoute } from "@/functions/auth";
 import { MdOutlineDateRange } from "react-icons/md";
 import LayoutPage from "../../LayoutPage";
 import Star from "@/components/Star";
+import LoadingPage from "@/components/LoadingPage";
+import { usePatient } from "../../Context";
+import { useEffect } from "react";
 
 const Consultation = () => {
-  const { aproved } = patientPrivateRoute();
 
   const { consultationId } = useParams();
+  const { pending, auth } = usePatient();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (pending) return;
+    if (!auth.currentUser || !patientDetail) {
+      router.push("/");
+    }
+  }, [pending]);
 
   const {
     doctorConsultation,
@@ -22,15 +32,20 @@ const Consultation = () => {
     patientDetail,
   } = useConsultationDetails({ consultationId });
 
+
+
+
+  if (pending) return <LoadingPage />
+
   return (
-    aproved && (
+    auth.currentUser && (
       <LayoutPage>
         <div className=" text-base min-h-screen pb-[100px]">
           <PageHeaderWithBackButton
             href="/patient/consultations"
             text="Consultation"
           />
-          {isFetching === "fetching" ? (
+          {isFetching === "fetched" ? (
             <>
               <div className=" px-4">
                 <DoctorCard

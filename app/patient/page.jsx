@@ -9,14 +9,25 @@ import SubHeader from "../../components/SubHeader";
 import { usePatient } from "@/app/patient/Context";
 import { getUserFirstName } from "@/functions/functions";
 import { updateGreeting } from "@/functions/greeting";
-import { patientPrivateRoute } from "@/functions/auth";
+import LoadingPage from "@/components/LoadingPage";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const Dashoard = () => {
-  const { aproved } = patientPrivateRoute();
-  const { patientDetail, auth } = usePatient();
+  const { patientDetail, auth, pending } = usePatient();
+  const router = useRouter();
+
+
+  useEffect(() => {
+    if (pending) return;
+    if (!auth.currentUser || !patientDetail) {
+      router.push("/");
+    }
+  }, [pending]);
+
+  if (pending) return <LoadingPage />
 
   return (
-    aproved &&
     auth.currentUser && (
       <LayoutPage>
         <div className="text-dark w-full px-4 pb-[80px] relative md:max-w-[400px] md:h-screen overflow-auto min-h-screen bg-brandwhite">

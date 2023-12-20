@@ -17,7 +17,7 @@ const Navigation = () => {
       if (!unseen) return;
       setUnSeenConsult(true);
     }
-  }, []);
+  }, [consultations]);
   return (
     <div
       className={`  grid-cols-5  z-[40] bg-white shadow-gray-400 border-t md:max-w-[400px]

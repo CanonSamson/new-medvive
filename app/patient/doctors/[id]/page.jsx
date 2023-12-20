@@ -7,7 +7,7 @@ import DoctorCard from "../../DoctorCard";
 import { usePatient } from "../../Context";
 import PageHeaderWithBackButton from "@/components/PageHeaderWithBackButton";
 import { BookAppointmentSchema } from "@/validation/patient";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { createOrUpdateDB, getDB } from "@/functions/firebase";
 import { ID_GENERATOR, getUserFirstName } from "@/functions/functions";
 import { useDateRange } from "@/functions/useDateRange";
@@ -15,14 +15,16 @@ import DoctorRatings from "./DoctorRatings";
 import Button from "@/components/Button";
 import { patientPrivateRoute } from "@/functions/auth";
 import LayoutPage from "../../LayoutPage";
+import LoadingPage from "@/components/LoadingPage";
 
 const ConsultDocterPage = () => {
   patientPrivateRoute();
   const { id } = useParams();
   const [doctor, setDoctor] = useState({});
   const [submit, setSubmit] = useState(false);
+  const router = useRouter();
 
-  const { auth, patientDetail, getPatientData, doctors } = usePatient();
+  const { auth, patientDetail, getPatientData, doctors, pending } = usePatient();
 
   const [selectedMethodIndex, setSelectedMethodIndex] = useState({});
   const { dateRange, selectedRange, timeData, selectedTime, timestamp } =
@@ -116,7 +118,20 @@ const ConsultDocterPage = () => {
     GetDoctor();
   }, [id, doctors]);
 
-  return (
+
+
+
+  useEffect(() => {
+    if (pending) return;
+    if (!auth.currentUser || !patientDetail) {
+      router.push("/");
+    }
+  }, [pending]);
+
+
+  if (pending) return <LoadingPage />
+
+  return auth.currentUser && (
     <LayoutPage>
       <div className=" w-full flex   relative h-screen text-base">
         <div
@@ -215,11 +230,10 @@ const ConsultDocterPage = () => {
                   <li key={index}>
                     <button
                       onClick={onClick}
-                      className={`flex flex-col ${
-                        date === selectedRange.date && selectedRange.date
-                          ? "bg-primary text-white"
-                          : "bg-white"
-                      }  rounded-2xl h-[80px] min-w-[80px] justify-center items-center `}
+                      className={`flex flex-col ${date === selectedRange.date && selectedRange.date
+                        ? "bg-primary text-white"
+                        : "bg-white"
+                        }  rounded-2xl h-[80px] min-w-[80px] justify-center items-center `}
                     >
                       <span className="text-[20px] font-bold">
                         {date.split("-")[2]}
@@ -248,11 +262,10 @@ const ConsultDocterPage = () => {
                     <button
                       onClick={item.onClick}
                       name={item.time}
-                      className={`${
-                        item.time == selectedTime
-                          ? "bg-primary text-white"
-                          : "bg-white"
-                      }  rounded-xl px-2 h-[40px] min-w-[100px] flex items-center justify-center`}
+                      className={`${item.time == selectedTime
+                        ? "bg-primary text-white"
+                        : "bg-white"
+                        }  rounded-xl px-2 h-[40px] min-w-[100px] flex items-center justify-center`}
                     >
                       {item.time}
                     </button>

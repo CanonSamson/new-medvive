@@ -11,14 +11,14 @@ const DoctorRatings = ({ doctor, id }) => {
   const [users, setUsers] = useState();
 
   const GetData = async () => {
-    const { data: consult } = await getDB("consultations", id);
+    const { data: consultations } = await getDB("consultations", id);
     const { Data: users } = await getCollectionDB("users");
 
     setUsers(users);
 
-    if (consult) {
-      setDoctorConsultations(consult);
-      const b = consult.filter((b) => (b.status = "Ended"));
+    if (consultations) {
+      setDoctorConsultations(consultations);
+      const b = consultations?.filter((b) => (b.status = "Ended"));
       setFinishedConsult(b.length);
     }
   };
