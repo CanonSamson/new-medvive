@@ -59,20 +59,30 @@ export function PatientProvider({ children }) {
     }
   }
 
+
+
   const getPatientDetail = async () => {
     setPending(true);
+
     if (auth.currentUser) {
       try {
+        // Fetch patient details
         const { patient } = await getPatient();
+
+        // Fetch doctors collection
         const { Data: doctors } = await getCollectionDB("doctors");
+
+        // Update state with fetched data
         setDoctors(doctors);
         setPatientDetail(patient);
         setPending(false);
       } catch (error) {
-        console.error("Error fetching  patient:", error);
+        // Handle errors during data fetching
+        console.error("Error fetching patient:", error);
         setPending(false);
       }
     } else {
+      // Handle the case where the user is not authenticated
       setPending(false);
     }
   };
@@ -117,7 +127,7 @@ export function PatientProvider({ children }) {
     getDoctors,
     doctors,
     consultations,
-    loggingOut
+    loggingOut,
   };
   return (
     <PatientContext.Provider value={value}>{children}</PatientContext.Provider>

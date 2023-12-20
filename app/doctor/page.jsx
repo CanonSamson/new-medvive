@@ -5,8 +5,8 @@ import LayoutPage from "./LayoutPage";
 import Link from "next/link";
 import Image from "next/image";
 import { getUserFirstName } from "@/functions/functions";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useLayoutEffect } from "react";
+import { redirect, useRouter } from "next/navigation";
 import { updateGreeting } from "@/functions/greeting";
 import { useDoctor } from "./Context";
 import SearchInput from "@/components/SearchInput";
@@ -15,20 +15,14 @@ import LoadingPage from "@/components/LoadingPage";
 
 const Home = () => {
   const { doctorDetail, pending, auth } = useDoctor();
-  const router = useRouter();
-  
-  // Check authentication status on initial render
-  if (!auth.currentUser && !pending) {
-    router.push("/");
-  }
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // Check authentication status when dependencies change
     if (pending) return;
     if (!auth.currentUser && !pending) {
-      router.push("/");
+      redirect("/");
     }
-  }, [pending, auth.currentUser]);
+  }, []);
 
   if (pending) return <LoadingPage />;
 

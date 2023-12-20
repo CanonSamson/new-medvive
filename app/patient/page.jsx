@@ -10,17 +10,18 @@ import { usePatient } from "@/app/patient/Context";
 import { getUserFirstName } from "@/functions/functions";
 import { updateGreeting } from "@/functions/greeting";
 import LoadingPage from "@/components/LoadingPage";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 
 const Dashoard = () => {
   const { patientDetail, auth, pending } = usePatient();
-  const router = useRouter();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    // Check authentication status when dependencies change
     if (pending) return;
-    if (!auth.currentUser) router.push("/");
-  }, [pending, patientDetail, auth.currentUser]);
+    if (!auth.currentUser && !pending) {
+      redirect("/");
+    }
+  }, []);
 
   if (pending) return <LoadingPage />;
 
