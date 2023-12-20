@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import { usePatient } from "../Context";
 import { MdDateRange } from "react-icons/md";
 import Consult from "./Consult";
