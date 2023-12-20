@@ -7,18 +7,16 @@ import DoctorCard from "../../../../components/DoctorCard";
 import { usePatient } from "../../Context";
 import PageHeaderWithBackButton from "@/components/PageHeaderWithBackButton";
 import { BookAppointmentSchema } from "@/validation/patient";
-import { redirect, useParams, useRouter } from "next/navigation";
+import { redirect, useParams,  } from "next/navigation";
 import { createOrUpdateDB, getDB } from "@/functions/firebase";
 import { ID_GENERATOR, getUserFirstName } from "@/functions/functions";
 import { useDateRange } from "@/functions/useDateRange";
 import DoctorRatings from "./DoctorRatings";
 import Button from "@/components/Button";
-import { patientPrivateRoute } from "@/functions/auth";
 import LayoutPage from "../../LayoutPage";
 import LoadingPage from "@/components/LoadingPage";
 
 const ConsultDocterPage = () => {
-  patientPrivateRoute();
   const { id } = useParams();
   const [doctor, setDoctor] = useState({});
   const [submit, setSubmit] = useState(false);

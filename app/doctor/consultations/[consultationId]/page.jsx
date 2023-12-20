@@ -5,7 +5,7 @@ import { redirect, useParams } from "next/navigation";
 import { MdOutlineDateRange } from "react-icons/md";
 import Star from "@/components/Star";
 import LoadingPage from "@/components/LoadingPage";
-import { usePatient } from "../../Context";
+import { useDoctor } from "../../Context";
 import { useLayoutEffect } from "react";
 import { useDoctorConsultationDetail } from "@/functions/useDoctorConsultationDetail";
 import LayoutPage from "../../LayoutPage";
@@ -13,7 +13,7 @@ import DoctorCard from "@/components/DoctorCard";
 
 const Consultation = () => {
   const { consultationId } = useParams();
-  const { pending, auth } = usePatient();
+  const { pending, auth } = useDoctor();
 
   useLayoutEffect(() => {
     // Check authentication status when dependencies change
