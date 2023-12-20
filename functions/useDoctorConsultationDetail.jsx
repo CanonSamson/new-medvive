@@ -8,7 +8,7 @@ export function useDoctorConsultationDetail({ consultationId }) {
   const [doctorConsultation, setDoctorConsultation] = useState(null);
   const [patientConsultation, setPatientConsultation] = useState(null);
   const [isFetching, setIsFetching] = useState("fetching");
-  const { consultations, pending, patients } = useDoctor();
+  const { consultations, pending, patients, doctorDetail } = useDoctor();
   const [patient, setPatient] = useState(null);
 
   const getData = async () => {
@@ -55,6 +55,6 @@ export function useDoctorConsultationDetail({ consultationId }) {
     patientConsultation,
     patient,
     isFetching,
-    patientDetail,
+    doctorDetail,
   };
 }

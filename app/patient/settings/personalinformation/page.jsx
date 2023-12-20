@@ -12,7 +12,6 @@ import AddressPopUp from "./AddressPopUp";
 import HeightPopUp from "./HeightPopUp";
 import WeightPopUp from "./WeightPopUp";
 import GenderPopUp from "./GenderPopUp";
-import { useRouter } from "next/navigation";
 import { usePatient } from "../../Context";
 import LoadingPage from "@/components/LoadingPage";
 

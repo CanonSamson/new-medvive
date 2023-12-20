@@ -45,11 +45,16 @@ const Consultation = () => {
             <>
               <div className=" px-4">
                 <DoctorCard
-                  Name={doctorDetail?.name}
-                  Img={doctorDetail?.profilePicture}
-                  specialty={doctorDetail?.specialty}
-                  languages={doctorDetail?.languages}
-                  stars={doctorDetail?.stars ? doctorDetail?.stars : "0.0"}
+                  Name={patient?.name}
+                  Img={
+                    !patient?.profilePicture
+                      ? patient?.gender === "Male"
+                        ? "/images/Avatar.png"
+                        : "/images/Avatar.png"
+                      : patient?.profilePicture
+                  }
+                  specialty={patient?.address}
+                  languages={patient?.languages}
                 />
 
                 <div className=" flex items-center justify-between px-2  h-[40px]  mt-10 border-b">
@@ -59,10 +64,9 @@ const Consultation = () => {
                   </div>
                   <div className=" flex items-center gap-1 text-base ">
                     <span>
-                      {patientConsultation?.weekday},{" "}
-                      {patientConsultation?.date}
+                      {doctorConsultation?.weekday}, {doctorConsultation?.date}
                     </span>
-                    <span>{patientConsultation?.time}</span>
+                    <span>{doctorConsultation?.time}</span>
                   </div>
                 </div>
 

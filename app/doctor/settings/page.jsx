@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 
-
 import { IoMdPerson } from "react-icons/io";
 import { IoSettingsSharp } from "react-icons/io5";
 
@@ -60,7 +59,7 @@ const Settings = () => {
 
             <section className="mt-[20px] grid  gap-2 z-20 relative">
               <Link
-                href="/dashboard/patient/settings/personalinformation"
+                href="/patient/settings/personalinformation"
                 className="flex items-center bg-white rounded-xl p-3  w-full  justify-between"
               >
                 <div className=" flex items-center  gap-2">
