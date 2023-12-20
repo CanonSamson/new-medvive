@@ -16,11 +16,19 @@ import LoadingPage from "@/components/LoadingPage";
 const Home = () => {
   const { doctorDetail, pending, auth } = useDoctor();
   const router = useRouter();
+  
+  // Check authentication status on initial render
+  if (!auth.currentUser && !pending) {
+    router.push("/");
+  }
 
   useEffect(() => {
+    // Check authentication status when dependencies change
     if (pending) return;
-    if (!auth.currentUser) router.push("/");
-  }, [pending, doctorDetail, auth.currentUser]);
+    if (!auth.currentUser && !pending) {
+      router.push("/");
+    }
+  }, [pending, auth.currentUser]);
 
   if (pending) return <LoadingPage />;
 
