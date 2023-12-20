@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { getDoctor } from "@/functions/doctor";
 import { db } from "@/firebase-config";
 import { doc, onSnapshot } from "firebase/firestore";
+import { getCollectionDB } from "@/functions/firebase";
 
 const DoctorContext = createContext();
 
@@ -23,12 +24,15 @@ export function DoctorProvider({ children }) {
   const [patients, setPatients] = useState(null);
   const [isSigning, setIsSigning] = useState(false);
   const [consultations, setConsultations] = useState(null);
+  const [loggingOut, setLoggingOut] = useState(false);
 
   const auth = getAuth();
 
   function logout() {
+    setLoggingOut(true);
     signOut(auth);
     setDoctorDetail(null);
+    setLoggingOut(false);
     router.push("/");
   }
 
@@ -45,7 +49,8 @@ export function DoctorProvider({ children }) {
   }
 
   const getDoctorDetail = async () => {
-    if (!auth.currentUser) {
+    setPending(true);
+    if (auth.currentUser) {
       try {
         const { doctor } = await getDoctor();
         const { Data: patients } = await getCollectionDB("patients");
@@ -100,6 +105,7 @@ export function DoctorProvider({ children }) {
     getDoctorData,
     patients,
     consultations,
+    loggingOut,
   };
   return (
     <DoctorContext.Provider value={value}>{children}</DoctorContext.Provider>

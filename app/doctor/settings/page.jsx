@@ -17,9 +17,10 @@ import LayoutPage from "../LayoutPage";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useDoctor } from "../Context";
+import LoadingPage from "@/components/LoadingPage";
 
 const Settings = () => {
-  const { doctorDetail, logout, pending, auth } = useDoctor();
+  const { doctorDetail, logout, pending, auth , loggingOut} = useDoctor();
 
   const router = useRouter();
 
@@ -28,21 +29,9 @@ const Settings = () => {
     if (!auth.currentUser || !doctorDetail) {
       router.push("/doctor/login");
     }
-  },  [pending, auth.currentUser, doctorDetail, router]);
+  }, [pending, auth.currentUser, doctorDetail, router]);
 
-  if (pending) {
-    return (
-      <div className=" w-full bg-white h-screen relative flex justify-center items-center">
-        <Image
-          className="w-[120px] animate-bounce"
-          src="/logo.svg"
-          width={120}
-          height={100}
-          alt=""
-        />
-      </div>
-    );
-  }
+  if (pending || loggingOut) return <LoadingPage />;
 
   return (
     auth.currentUser && (

@@ -13,7 +13,7 @@ const Consultations = () => {
 
   useEffect(() => {
     if (pending) return;
-    if (!doctorDetail || !auth.currentUser) router.push("/");
+    if (!auth.currentUser) router.push("/");
   }, [pending, doctorDetail, auth.currentUser]);
 
   if (pending) return <LoadingPage />;

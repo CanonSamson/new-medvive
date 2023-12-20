@@ -24,12 +24,15 @@ export function PatientProvider({ children }) {
   const [doctors, setDoctors] = useState(null);
   const [consultations, setConsultations] = useState(null);
   const [isSigning, setIsSigning] = useState(false);
+  const [loggingOut, setLoggingOut] = useState(false);
 
   const auth = getAuth();
 
   function logout() {
+    setLoggingOut(true);
     signOut(auth);
     setPatientDetail(null);
+    setLoggingOut(false);
     router.push("/");
   }
 
@@ -57,7 +60,8 @@ export function PatientProvider({ children }) {
   }
 
   const getPatientDetail = async () => {
-    if (!auth.currentUser) {
+    setPending(true);
+    if (auth.currentUser) {
       try {
         const { patient } = await getPatient();
         const { Data: doctors } = await getCollectionDB("doctors");
@@ -113,6 +117,7 @@ export function PatientProvider({ children }) {
     getDoctors,
     doctors,
     consultations,
+    loggingOut
   };
   return (
     <PatientContext.Provider value={value}>{children}</PatientContext.Provider>

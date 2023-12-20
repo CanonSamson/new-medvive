@@ -17,15 +17,12 @@ const Dashoard = () => {
   const { patientDetail, auth, pending } = usePatient();
   const router = useRouter();
 
-
   useEffect(() => {
     if (pending) return;
-    if (!auth.currentUser || !patientDetail) {
-      router.push("/");
-    }
-  }, [pending]);
+    if (!auth.currentUser) router.push("/");
+  }, [pending, patientDetail, auth.currentUser]);
 
-  if (pending) return <LoadingPage />
+  if (pending) return <LoadingPage />;
 
   return (
     auth.currentUser && (
