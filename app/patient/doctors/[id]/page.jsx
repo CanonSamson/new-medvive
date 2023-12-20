@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 
-import DoctorCard from "../../DoctorCard";
+import DoctorCard from "../../../../components/DoctorCard";
 import { usePatient } from "../../Context";
 import PageHeaderWithBackButton from "@/components/PageHeaderWithBackButton";
 import { BookAppointmentSchema } from "@/validation/patient";

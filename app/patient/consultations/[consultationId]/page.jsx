@@ -1,6 +1,5 @@
 "use client";
 
-import DoctorCard from "../../DoctorCard";
 import PageHeaderWithBackButton from "@/components/PageHeaderWithBackButton";
 import { useParams, useRouter } from "next/navigation";
 import { useConsultationDetails } from "@/functions/useConsultationDetails";
@@ -10,6 +9,7 @@ import Star from "@/components/Star";
 import LoadingPage from "@/components/LoadingPage";
 import { usePatient } from "../../Context";
 import { useEffect } from "react";
+import DoctorCard from "@/components/DoctorCard";
 
 const Consultation = () => {
 

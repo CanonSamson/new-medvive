@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import { usePatient } from "@/app/patient/Context";
 import { useRouter } from "next/navigation";
-import DoctorCard from "../DoctorCard";
+import DoctorCard from "../../../components/DoctorCard";
 import SearchInput from "@/components/SearchInput";
 import SubHeader from "@/components/SubHeader";
 import Link from "next/link";

@@ -1,6 +1,5 @@
 "use client";
 
-import DoctorCard from "../../DoctorCard";
 import PageHeaderWithBackButton from "@/components/PageHeaderWithBackButton";
 import { useParams, useRouter } from "next/navigation";
 import { MdOutlineDateRange } from "react-icons/md";
@@ -10,6 +9,7 @@ import { usePatient } from "../../Context";
 import { useEffect } from "react";
 import { useDoctorConsultationDetail } from "@/functions/useDoctorConsultationDetail";
 import LayoutPage from "../../LayoutPage";
+import DoctorCard from "@/components/DoctorCard";
 
 const Consultation = () => {
   const { consultationId } = useParams();
