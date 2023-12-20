@@ -1,23 +1,24 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useLayoutEffect } from "react";
 import { useDoctor } from "../Context";
 import { MdDateRange } from "react-icons/md";
 import Consult from "./Consult";
 import LayoutPage from "../LayoutPage";
-import { useRouter } from "next/navigation";
 import LoadingPage from "@/components/LoadingPage";
+import { redirect } from "next/navigation";
 
 const Consultations = () => {
-  const { consultations, patients, pending, auth, doctorDetail } = useDoctor();
-  const router = useRouter();
+  const { consultations, patients, pending, auth } = useDoctor();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    // Check authentication status when dependencies change
     if (pending) return;
-    if (!auth.currentUser) router.push("/");
-  }, [pending, doctorDetail, auth.currentUser]);
+    if (!auth.currentUser && !pending) {
+      redirect("/");
+    }
+  }, []);
 
   if (pending) return <LoadingPage />;
-
   return (
     auth.currentUser && (
       <LayoutPage>

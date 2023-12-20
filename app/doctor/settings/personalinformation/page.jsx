@@ -1,42 +1,32 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 
 import Image from "next/image";
 import Link from "next/link";
 
 import { IoIosArrowBack } from "react-icons/io";
 import AddressPopUp from "./AddressPopUp";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import { useDoctor } from "../../Context";
 import GenderPopUp from "./GenderPopUp";
 import DateOfBirthPopUp from "./DateOfBirthPopUp";
+import LoadingPage from "@/components/LoadingPage";
 
 const PersonalInformation = () => {
   const { patientDetail, pending, auth } = useDoctor();
   const [settingsPup, setSettingsPup] = useState("");
-  const router = useRouter();
 
-  useEffect(() => {
+  
+  useLayoutEffect(() => {
+    // Check authentication status when dependencies change
     if (pending) return;
-    if (!auth.currentUser || !patientDetail) {
-      router.push("/patient/login");
+    if (!auth.currentUser && !pending) {
+      redirect("/");
     }
-  }, [pending, auth.currentUser, patientDetail]);
+  }, []);
 
-  if (pending) {
-    return (
-      <div className=" w-full bg-white h-screen relative flex justify-center items-center">
-        <Image
-          className="w-[120px] animate-bounce"
-          src="/logo.svg"
-          width={120}
-          height={100}
-          alt=""
-        />
-      </div>
-    );
-  }
+  if (pending) return <LoadingPage />;
 
   return (
     auth.currentUser && (

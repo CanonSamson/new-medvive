@@ -1,10 +1,10 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 //icons
 import { IoIosArrowBack } from "react-icons/io";
 import { usePatient } from "@/app/patient/Context";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import DoctorCard from "../../../components/DoctorCard";
 import SearchInput from "@/components/SearchInput";
 import SubHeader from "@/components/SubHeader";
@@ -18,15 +18,6 @@ const ConsultationsPage = () => {
   const [fetching, setFetching] = useState("fetching");
   const [verifyDoctors, setVerifyDoctors] = useState([]);
   const router = useRouter();
-
-
-  useEffect(() => {
-    if (pending) return;
-    if (!auth.currentUser || !patientDetail) {
-      router.push("/");
-    }
-  }, [pending]);
-
 
 
   const getVerifyDoctors = async () => {
@@ -52,7 +43,15 @@ const ConsultationsPage = () => {
     getVerifyDoctors();
   }, [pending, doctors]);
 
-  if (pending) return <LoadingPage />
+  useLayoutEffect(() => {
+    // Check authentication status when dependencies change
+    if (pending) return;
+    if (!auth.currentUser && !pending) {
+      redirect("/");
+    }
+  }, []);
+
+  if (pending || loggingOut) return <LoadingPage />;
   return (
     auth.currentUser && (
       <LayoutPage>

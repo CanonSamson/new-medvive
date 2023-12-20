@@ -14,20 +14,22 @@ import {
 } from "react-icons/md";
 import Image from "next/image";
 import LayoutPage from "../LayoutPage";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { redirect } from "next/navigation";
+import { useLayoutEffect } from "react";
 import { usePatient } from "../Context";
 import LoadingPage from "@/components/LoadingPage";
 
 const Settings = () => {
   const { patientDetail, logout, pending, auth, loggingOut } = usePatient();
 
-  const router = useRouter();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    // Check authentication status when dependencies change
     if (pending) return;
-    if (!auth.currentUser || !patientDetail) router.push("/");
-  }, [pending, auth.currentUser, patientDetail]);
+    if (!auth.currentUser && !pending) {
+      redirect("/");
+    }
+  }, []);
 
   if (pending || loggingOut) return <LoadingPage />;
 

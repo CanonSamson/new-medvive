@@ -5,44 +5,30 @@ import OverviewPopUp from "./OverviewPop";
 import LanguagePopUp from "./LanguagePop";
 import EducationPopUp from "./EducationPop";
 
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import DoctorsCard from "./DoctorsCard";
 import PageHeaderWithBackButton from "@/components/PageHeaderWithBackButton";
 import EditPhoto from "./EditPhoto";
 import { useDoctor } from "../../Context";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
 
 import { AiOutlineDelete, AiOutlinePlus } from "react-icons/ai";
 import { FiEdit2 } from "react-icons/fi";
+import LoadingPage from "@/components/LoadingPage";
+import { redirect } from "next/navigation";
 
 const Profile = () => {
   const [settingsPup, setSettingsPup] = useState("");
   const { doctorDetail, pending, auth } = useDoctor();
 
-  const router = useRouter();
-
-  useEffect(() => {
+  useLayoutEffect(() => {
+    // Check authentication status when dependencies change
     if (pending) return;
-    if (!auth.currentUser || !doctorDetail) {
-      router.push("/doctor/login");
+    if (!auth.currentUser && !pending) {
+      redirect("/");
     }
-  }, [pending, auth.currentUser, doctorDetail, router]);
+  }, []);
 
-  if (pending) {
-    return (
-      <div className=" w-full bg-white h-screen relative flex justify-center items-center">
-        <Image
-          className="w-[120px] animate-bounce"
-          src="/logo.svg"
-          width={120}
-          height={100}
-          alt=""
-        />
-      </div>
-    );
-  }
-
+  if (pending) return <LoadingPage />;
   return (
     auth.currentUser && (
       <div className=" text-base">

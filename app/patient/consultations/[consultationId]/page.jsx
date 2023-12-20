@@ -1,28 +1,27 @@
 "use client";
 
 import PageHeaderWithBackButton from "@/components/PageHeaderWithBackButton";
-import { useParams, useRouter } from "next/navigation";
+import { redirect, useParams } from "next/navigation";
 import { useConsultationDetails } from "@/functions/useConsultationDetails";
 import { MdOutlineDateRange } from "react-icons/md";
 import LayoutPage from "../../LayoutPage";
 import Star from "@/components/Star";
 import LoadingPage from "@/components/LoadingPage";
 import { usePatient } from "../../Context";
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import DoctorCard from "@/components/DoctorCard";
 
 const Consultation = () => {
-
   const { consultationId } = useParams();
   const { pending, auth } = usePatient();
-  const router = useRouter();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    // Check authentication status when dependencies change
     if (pending) return;
-    if (!auth.currentUser || !patientDetail) {
-      router.push("/");
+    if (!auth.currentUser && !pending) {
+      redirect("/");
     }
-  }, [pending]);
+  }, []);
 
   const {
     doctorConsultation,
@@ -32,10 +31,7 @@ const Consultation = () => {
     patientDetail,
   } = useConsultationDetails({ consultationId });
 
-
-
-
-  if (pending) return <LoadingPage />
+  if (pending) return <LoadingPage />;
 
   return (
     auth.currentUser && (

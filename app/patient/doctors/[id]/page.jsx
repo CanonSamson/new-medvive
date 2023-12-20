@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { useFormik } from "formik";
 
 import DoctorCard from "../../../../components/DoctorCard";
 import { usePatient } from "../../Context";
 import PageHeaderWithBackButton from "@/components/PageHeaderWithBackButton";
 import { BookAppointmentSchema } from "@/validation/patient";
-import { useParams, useRouter } from "next/navigation";
+import { redirect, useParams, useRouter } from "next/navigation";
 import { createOrUpdateDB, getDB } from "@/functions/firebase";
 import { ID_GENERATOR, getUserFirstName } from "@/functions/functions";
 import { useDateRange } from "@/functions/useDateRange";
@@ -22,9 +22,8 @@ const ConsultDocterPage = () => {
   const { id } = useParams();
   const [doctor, setDoctor] = useState({});
   const [submit, setSubmit] = useState(false);
-  const router = useRouter();
 
-  const { auth, patientDetail, getPatientData, doctors, pending } =
+  const { auth, patientDetail, getPatientData, doctors, pending, loggingOut } =
     usePatient();
 
   const [selectedMethodIndex, setSelectedMethodIndex] = useState({});
@@ -119,15 +118,15 @@ const ConsultDocterPage = () => {
     GetDoctor();
   }, [id, doctors]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    // Check authentication status when dependencies change
     if (pending) return;
-    if (!auth.currentUser || !patientDetail) {
-      router.push("/");
+    if (!auth.currentUser && !pending) {
+      redirect("/");
     }
-  }, [pending]);
+  }, []);
 
-  if (pending) return <LoadingPage />;
-
+  if (pending || loggingOut) return <LoadingPage />;
   return (
     auth.currentUser && (
       <LayoutPage>

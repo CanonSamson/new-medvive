@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 
-import { BsFillQuestionCircleFill } from "react-icons/bs";
 
 import { IoMdPerson } from "react-icons/io";
 import { IoSettingsSharp } from "react-icons/io5";
@@ -14,22 +13,21 @@ import {
 } from "react-icons/md";
 import Image from "next/image";
 import LayoutPage from "../LayoutPage";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { redirect } from "next/navigation";
+import { useLayoutEffect } from "react";
 import { useDoctor } from "../Context";
 import LoadingPage from "@/components/LoadingPage";
 
 const Settings = () => {
-  const { doctorDetail, logout, pending, auth , loggingOut} = useDoctor();
+  const { doctorDetail, logout, pending, auth, loggingOut } = useDoctor();
 
-  const router = useRouter();
-
-  useEffect(() => {
+  useLayoutEffect(() => {
+    // Check authentication status when dependencies change
     if (pending) return;
-    if (!auth.currentUser || !doctorDetail) {
-      router.push("/doctor/login");
+    if (!auth.currentUser && !pending) {
+      redirect("/");
     }
-  }, [pending, auth.currentUser, doctorDetail, router]);
+  }, []);
 
   if (pending || loggingOut) return <LoadingPage />;
 

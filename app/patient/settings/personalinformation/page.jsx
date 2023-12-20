@@ -14,33 +14,23 @@ import WeightPopUp from "./WeightPopUp";
 import GenderPopUp from "./GenderPopUp";
 import { useRouter } from "next/navigation";
 import { usePatient } from "../../Context";
+import LoadingPage from "@/components/LoadingPage";
 
 const PersonalInformation = () => {
-  const { patientDetail, pending, auth } = usePatient();
+  const { patientDetail, pending, auth, loggingOut } = usePatient();
   const [settingsPup, setSettingsPup] = useState("");
-  const router = useRouter();
 
-  useEffect(() => {
+
+
+  useLayoutEffect(() => {
+    // Check authentication status when dependencies change
     if (pending) return;
-    if (!auth.currentUser || !patientDetail) {
-      router.push("/patient/login");
+    if (!auth.currentUser && !pending) {
+      redirect("/");
     }
-  }, [pending]);
+  }, []);
 
-  if (pending) {
-    return (
-      <div className=" w-full bg-white h-screen relative flex justify-center items-center">
-        <Image
-          className="w-[120px] animate-bounce"
-          src="/logo.svg"
-          width={120}
-          height={100}
-          alt=""
-        />
-      </div>
-    );
-  }
-
+  if (pending || loggingOut) return <LoadingPage />;
   return (
     auth.currentUser && (
       <div className=" flex flex-col min-h-screen pb-[200px] bg-brandwhite relative pt-[80px] ">

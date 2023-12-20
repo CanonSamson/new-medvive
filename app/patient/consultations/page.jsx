@@ -4,24 +4,21 @@ import { usePatient } from "../Context";
 import { MdDateRange } from "react-icons/md";
 import Consult from "./Consult";
 import LayoutPage from "../LayoutPage";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import LoadingPage from "@/components/LoadingPage";
 
 const Consultations = () => {
-  const { consultations, doctors, pending, auth, patientDetail } = usePatient();
-  const router = useRouter();
+  const { consultations, doctors, pending, auth } = usePatient();
 
-
-  useEffect(() => {
+  useLayoutEffect(() => {
+    // Check authentication status when dependencies change
     if (pending) return;
-    if (!auth.currentUser || !patientDetail) {
-      router.push("/");
+    if (!auth.currentUser && !pending) {
+      redirect("/");
     }
-  }, [pending]);
+  }, []);
 
-  if (pending) return <LoadingPage />
-
-
+  if (pending ) return <LoadingPage />;
   return (
     auth.currentUser && (
       <LayoutPage>
@@ -30,7 +27,6 @@ const Consultations = () => {
             <h4 className=" text-xl font-semibold">My Consultations</h4>
             <MdDateRange className="text-[#7B8D9E]" size={24} />
           </div>
-
 
           <section className=" px-4 mt-5  pb-[205px]">
             <div className=" grid gap-2">
