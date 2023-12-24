@@ -10,9 +10,7 @@ import { useLayoutEffect } from "react";
 import { useDoctorConsultationDetail } from "@/functions/useDoctorConsultationDetail";
 import LayoutPage from "../../LayoutPage";
 import DoctorCard from "@/components/DoctorCard";
-import { updateDB } from "@/functions/firebase";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "@/firebase-config";
+
 import { ConfirmConsultation, EndConsultation } from "./functions";
 
 const Consultation = () => {

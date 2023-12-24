@@ -2,7 +2,7 @@ const { db } = require("@/firebase-config");
 const { updateDB } = require("@/functions/firebase");
 const { getDoc, doc } = require("firebase/firestore");
 
-export const ConfirmConsultation = async (consultationId, patient, doctorDetail, consultations) => {
+export const ConfirmConsultation = async ({consultationId, patient, doctorDetail, consultations}) => {
     const timestamp = new Date();
 
     let data;
@@ -54,7 +54,7 @@ export const ConfirmConsultation = async (consultationId, patient, doctorDetail,
 
 
 
-export const EndConsultation = async (consultationId, patient, doctorDetail, consultations) => {
+export const EndConsultation = async ({consultationId, patient, doctorDetail, consultations}) => {
     const timestamp = new Date();
 
     let data;
