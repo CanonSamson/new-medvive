@@ -21,7 +21,7 @@ const ConsultDocterPage = () => {
   const [doctor, setDoctor] = useState({});
   const [submit, setSubmit] = useState(false);
 
-  const { auth, patientDetail, getPatientData, doctors, pending, loggingOut } =
+  const { auth, patientDetail, getPatientData, doctors, pending  } =
     usePatient();
 
   const [selectedMethodIndex, setSelectedMethodIndex] = useState({});
