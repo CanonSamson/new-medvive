@@ -35,7 +35,7 @@ export function secondsToTimeFormat(seconds) {
   return formattedTime;
 }
 
-export function findBooking(consultationP, consultationD, consultationId) {
+export function findConsultation(consultationP, consultationD, consultationId) {
   let patientConsultations = [...consultationP]; // Make a copy of the array
   let doctorConsultations = [...consultationD]; // Make a copy of the array
   let foundPatientIndex;

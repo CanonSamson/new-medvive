@@ -1,36 +1,36 @@
-const { db } = require("@/firebase-config");
-const { updateDB } = require("@/functions/firebase");
-const { getDoc, doc } = require("firebase/firestore");
+import { findConsultation } from "@/functions/functions";
+import { db } from "@/firebase-config";
+import {     updateDB } from "@/functions/firebase";
+import { doc, getDoc } from "firebase/firestore";
 
-export const ConfirmConsultation = async ({consultationId, patient, doctorDetail, consultations}) => {
+
+export const ConfirmConsultation = async ({ consultationId, patient, doctorDetail, consultations }) => {
     const timestamp = new Date();
+    try {
+        if (!patient) return;
+        let data;
+        const dataDoc = await getDoc(doc(db, "consultations", patient.uid));
+        data = dataDoc.exists() ? dataDoc.data() : null;
 
-    let data;
-    const dataDoc = await getDoc(doc(db, "consultations", patient.uid));
-    data = dataDoc.exists() ? dataDoc.data() : null;
+        if (data) {
+            let patientConsultations = [...data.data]; // Make a copy of the array
+            let doctorConsultations = [...consultations]; // Make a copy of the array
 
-    if (data) {
-        let patientConsultations = [...data.data]; // Make a copy of the array
-        let doctorConsultations = [...consultations]; // Make a copy of the array
 
-        // Find the index of the booking with the given ID in both arrays
-        const foundPatientIndex = patientConsultations.findIndex(
-            (consultaion) => consultaion.consultationId == consultationId
-        );
-        const foundDocIndex = doctorConsultations.findIndex(
-            (consultaion) => consultaion.consultationId == consultationId
-        );
-        // Check if both bookings were found
-        if (foundPatientIndex !== -1 && foundDocIndex !== -1) {
-            // Update the status to "Started" for both user and doctor bookings
-            patientConsultations[foundPatientIndex].status = "Started";
-            patientConsultations[foundPatientIndex].tostarted = timestamp;
+            const { foundPatientIndex, foundDocIndex } = findConsultation(
+                data.data,
+                consultations,
+                consultationId
+            );
+            console.log(foundPatientIndex)
+            if (foundPatientIndex !== -1 && foundDocIndex !== -1) {
+                patientConsultations[foundPatientIndex].status = "Started";
+                patientConsultations[foundPatientIndex].tostarted = timestamp;
 
-            doctorConsultations[foundDocIndex].status = "Started";
-            doctorConsultations[foundDocIndex].tostarted = timestamp;
-        }
+                doctorConsultations[foundDocIndex].status = "Started";
+                doctorConsultations[foundDocIndex].tostarted = timestamp;
+            }
 
-        try {
             if (consultations?.length > 0) {
                 updateDB("consultations", patient.uid, {
                     data: patientConsultations,
@@ -39,9 +39,10 @@ export const ConfirmConsultation = async ({consultationId, patient, doctorDetail
                     data: doctorConsultations,
                 });
             }
-        } catch (error) {
-            console.error("Error updating item:", error);
+
         }
+    } catch (error) {
+        console.error("Error updating item:", error);
     }
 };
 
@@ -54,7 +55,7 @@ export const ConfirmConsultation = async ({consultationId, patient, doctorDetail
 
 
 
-export const EndConsultation = async ({consultationId, patient, doctorDetail, consultations}) => {
+export const EndConsultation = async (consultationId, patient, doctorDetail, consultations) => {
     const timestamp = new Date();
 
     let data;
@@ -65,13 +66,12 @@ export const EndConsultation = async ({consultationId, patient, doctorDetail, co
         let patientConsultations = [...data.data]; // Make a copy of the array
         let doctorConsultations = [...consultations]; // Make a copy of the array
 
-        // Find the index of the booking with the given ID in both arrays
-        const foundPatientIndex = patientConsultations.findIndex(
-            (consultaion) => consultaion.consultationId == consultationId
+        const { foundPatientIndex, foundDocIndex } = findConsultation(
+            data.data,
+            consultations,
+            consultationId
         );
-        const foundDocIndex = doctorConsultations.findIndex(
-            (consultaion) => consultaion.consultationId == consultationId
-        );
+
         // Check if both bookings were found
         if (foundPatientIndex !== -1 && foundDocIndex !== -1) {
             // Update the status to "Started" for both user and doctor bookings

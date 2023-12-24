@@ -3,7 +3,7 @@
 import { useFormik } from "formik";
 import { useState } from "react";
 import { usePatient } from "../../Context";
-import { findBooking } from "@/functions/functions";
+import {  findConsultation } from "@/functions/functions";
 import { CancelBookingSchema } from "@/validation/patient";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase-config";
@@ -30,7 +30,7 @@ const CancelBookingPopUp = ({
       let doctorConsultations = [...data.data]; // Make a copy of the array
       let patientConsultations = [...consultations]; // Make a copy of the array
 
-      const { foundPatientIndex, foundDocIndex } = findBooking(
+      const { foundPatientIndex, foundDocIndex } = findConsultation(
         consultations,
         data.data,
         consultationId

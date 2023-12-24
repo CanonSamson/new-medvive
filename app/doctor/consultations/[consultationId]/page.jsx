@@ -15,7 +15,7 @@ import { ConfirmConsultation, EndConsultation } from "./functions";
 
 const Consultation = () => {
   const { consultationId } = useParams();
-  const { pending, auth, consultations } = useDoctor();
+  const { pending, auth, consultations, doctorDetail } = useDoctor();
 
   useLayoutEffect(() => {
     // Check authentication status when dependencies change
@@ -29,8 +29,6 @@ const Consultation = () => {
     doctorConsultation,
     isFetching,
     patient,
-    patientConsultation,
-    doctorDetail,
   } = useDoctorConsultationDetail({ consultationId });
 
 
@@ -111,7 +109,7 @@ const Consultation = () => {
           {doctorConsultation?.status === "Upcoming" && (
             <button
               onClick={async () => {
-                await ConfirmConsultation({ consultationId: consultationId, patient: patient, doctorDetail: doctorDetail, consultations: consultations })
+                await ConfirmConsultation({consultationId, patient, doctorDetail, consultations})
               }}
               className="flex items-center justify-center w-full bg-primary text-white text-base border rounded-lg h-[34px]"
             >
@@ -122,7 +120,7 @@ const Consultation = () => {
           {doctorConsultation?.status === "Started" && new Date(doctorConsultation?.consultatedAt) > new Date() && (
             <button
               onClick={async () => {
-                await EndConsultation({ consultationId: consultationId, patient: patient, doctorDetail: doctorDetail, consultations: consultations })
+                await EndConsultation(consultationId, patient, doctorDetail, consultations)
               }}
               className="flex items-center justify-center w-full bg-primary text-white text-base border rounded-lg h-[34px]"
             >
@@ -135,7 +133,7 @@ const Consultation = () => {
             Message
           </button>
         </div>
-      </LayoutPage>
+      </LayoutPage >
     )
   );
 };
