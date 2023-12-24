@@ -106,9 +106,9 @@ export function PatientProvider({ children }) {
         doc(db, "consultations", auth.currentUser.uid),
         (doc) => {
           const source = doc.metadata.hasPendingWrites ? "Local" : "Server";
-          console.log(source, " setconsultations: ", doc.data().data);
+          console.log(source, " setconsultations: ",  doc?.data()?.data);
           if (doc.data()) {
-            setConsultations(doc.data().data);
+            setConsultations( doc?.data()?.data);
           }
         }
       );

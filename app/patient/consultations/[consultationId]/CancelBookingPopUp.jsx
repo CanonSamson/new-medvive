@@ -39,12 +39,14 @@ const CancelBookingPopUp = ({
       // Check if both bookings were found
       if (foundPatientIndex !== -1 && foundDocIndex !== -1) {
         patientConsultations[foundPatientIndex].status = "Canceled";
+        patientConsultations[foundPatientIndex].active = false;
         patientConsultations[foundPatientIndex].cancelAt = timestamp;
         patientConsultations[foundPatientIndex].cancelMassage =
           values.cancelMassage;
 
         doctorConsultations[foundDocIndex].status = "Canceled";
         doctorConsultations[foundDocIndex].cancelAt = timestamp;
+        doctorConsultations[foundDocIndex].active = false;
         doctorConsultations[foundDocIndex].cancelMassage = values.cancelMassage;
       } else {
         setCancel(false);
@@ -104,9 +106,8 @@ const CancelBookingPopUp = ({
               disabled={canceled ? true : false}
               onClick={() => setCancelUpPop(false)}
               to=""
-              className={`  ${
-                canceled ? "bg-gray-400 " : "bg-primary"
-              }  justify-center items-center flex w-full  text-white text-base  rounded-lg h-[34px]`}
+              className={`  ${canceled ? "bg-gray-400 " : "bg-primary"
+                }  justify-center items-center flex w-full  text-white text-base  rounded-lg h-[34px]`}
             >
               Keep
             </button>
@@ -114,11 +115,10 @@ const CancelBookingPopUp = ({
               type="submit"
               disabled={canceled ? true : false}
               onClick={handleSubmit}
-              className={` ${
-                canceled
+              className={` ${canceled
                   ? "border-gray-400 text-gray-400"
                   : "border-primary text-primary"
-              } w-full text-base border   rounded-lg h-[34px]`}
+                } w-full text-base border   rounded-lg h-[34px]`}
             >
               Submit
             </button>

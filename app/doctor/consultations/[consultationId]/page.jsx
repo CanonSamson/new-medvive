@@ -13,6 +13,7 @@ import DoctorCard from "@/components/DoctorCard";
 import { updateDB } from "@/functions/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase-config";
+import { ConfirmConsultation, EndConsultation } from "./functions";
 
 const Consultation = () => {
   const { consultationId } = useParams();
@@ -34,48 +35,6 @@ const Consultation = () => {
     doctorDetail,
   } = useDoctorConsultationDetail({ consultationId });
 
-  const ConfirmBooking = async (consultationId, consultation, patient) => {
-    const timestamp = new Date();
-
-    let data;
-    const dataDoc = await getDoc(doc(db, "consultations", patient.uid));
-    data = dataDoc.exists() ? dataDoc.data() : null;
-
-    if (data) {
-      let patientConsultations = [...data.data]; // Make a copy of the array
-      let doctorConsultations = [...consultations]; // Make a copy of the array
-
-      // Find the index of the booking with the given ID in both arrays
-      const foundPatientIndex = patientConsultations.findIndex(
-        (consultaion) => consultaion.consultationId == consultationId
-      );
-      const foundDocIndex = doctorConsultations.findIndex(
-        (consultaion) => consultaion.consultationId == consultationId
-      );
-      // Check if both bookings were found
-      if (foundPatientIndex !== -1 && foundDocIndex !== -1) {
-        // Update the status to "Started" for both user and doctor bookings
-        patientConsultations[foundPatientIndex].status = "Started";
-        patientConsultations[foundPatientIndex].tostarted = timestamp;
-
-        doctorConsultations[foundDocIndex].status = "Started";
-        doctorConsultations[foundDocIndex].tostarted = timestamp;
-      }
-
-      try {
-        if (consultations?.length > 0) {
-          updateDB("consultations", patient.uid, {
-            data: patientConsultations,
-          });
-          updateDB("consultations", doctorDetail.uid, {
-            data: doctorConsultations,
-          });
-        }
-      } catch (error) {
-        console.error("Error updating item:", error);
-      }
-    }
-  };
 
   if (pending) return <LoadingPage />;
 
@@ -154,17 +113,25 @@ const Consultation = () => {
           {doctorConsultation?.status === "Upcomming" && (
             <button
               onClick={async () => {
-                await ConfirmBooking(
-                  consultationId,
-                  doctorConsultation,
-                  patient
-                );
+                await ConfirmConsultation({ consultationId: consultationId, patient: patient, doctorDetail: doctorDetail, consultations: consultations })
               }}
               className="flex items-center justify-center w-full bg-primary text-white text-base border rounded-lg h-[34px]"
             >
               Confirm Consultation
             </button>
           )}
+
+          {doctorConsultation?.status === "Started" && new Date(doctorConsultation?.consultatedAt) > new Date() && (
+            <button
+              onClick={async () => {
+                await EndConsultation({ consultationId: consultationId, patient: patient, doctorDetail: doctorDetail, consultations: consultations })
+              }}
+              className="flex items-center justify-center w-full bg-primary text-white text-base border rounded-lg h-[34px]"
+            >
+              End Consultation
+            </button>
+          )}
+
 
           <button className="justify-center items-center flex w-full text-base border-primary text-primary rounded-lg h-[34px]">
             Message

@@ -36,7 +36,7 @@ const Consultation = () => {
 
   useEffect(() => {
     const seenConsult = async () => {
-      seenConsultation(patientDetail.uid, consultationId, consultations);
+      seenConsultation({ uid: patientDetail.uid, consultationId, consultations });
     };
     if (patientConsultation?.messageStatus === "sent") {
       seenConsult();
