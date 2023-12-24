@@ -10,6 +10,7 @@ export const metadata = {
 
 };
 
+
 export default function DoctorLayout({ children }) {
   return (
     <>

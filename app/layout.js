@@ -11,6 +11,12 @@ export const metadata = {
     "Get 24/7 online consultations with the best doctorswithout breaking a sweat and your bank. Start a consult now",
 };
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: "no",
+};
 
 
 
