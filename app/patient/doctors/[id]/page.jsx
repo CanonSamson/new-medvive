@@ -124,7 +124,7 @@ const ConsultDocterPage = () => {
     }
   }, []);
 
-  if (pending || loggingOut) return <LoadingPage />;
+  if (pending ) return <LoadingPage />;
   return (
     auth.currentUser && (
       <LayoutPage>
