@@ -110,7 +110,7 @@ const Consultation = () => {
         </div>
 
         <div className="fixed right-0 duration-200 bottom-[60px] p-4 flex items-center w-full gap-2 mt-2">
-          {doctorConsultation?.status === "Upcomming" && (
+          {doctorConsultation?.status === "Upcoming" && (
             <button
               onClick={async () => {
                 await ConfirmConsultation({ consultationId: consultationId, patient: patient, doctorDetail: doctorDetail, consultations: consultations })
